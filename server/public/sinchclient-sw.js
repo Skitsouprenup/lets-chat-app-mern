@@ -1,1 +1,0 @@
-(()=>{"use strict";self.addEventListener("push",(function(t){console.log("ServiceWorker Push: ",t);var e=t.data.json();t.waitUntil(clients.matchAll({includeUncontrolled:!0,type:"window"}).then((function(t){t.forEach((function(t){t.postMessage({visible:"visible"===t.visibilityState,data:e})}))})))}))})();
