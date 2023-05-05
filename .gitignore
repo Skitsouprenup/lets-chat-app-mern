@@ -4,3 +4,4 @@ client/yarn.lock
 server/node_modules
 server/.env
 server/yarn.lock
+server/public
