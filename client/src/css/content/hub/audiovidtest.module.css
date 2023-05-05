@@ -1,0 +1,107 @@
+.audio-vid-test-container {
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 50px;
+}
+
+.audio-vid-test {
+    flex-grow: 1;
+    position: relative;
+    border-radius: 5px;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-frame {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.status-label-container {
+    position: absolute;
+    z-index: 10;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-label {
+    color: lightgray;
+}
+
+.button-container {
+    flex-grow: 1;
+    z-index: 20;
+    position: absolute;
+    /*
+        width% and height% works
+        nicely with absolute flex
+        container
+    */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    column-gap: 15px;
+    padding: 15px;
+}
+
+.button-disable {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: hsl(349, 81%, 53%);
+}
+
+.button-disable:hover {
+    background-color: hsl(349, 81%, 63%);
+    cursor: pointer;
+}
+
+.button-enable {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: hsl(0, 0%, 83%);
+}
+
+.button-enable:hover {
+    background-color: hsl(0, 0%, 93%);
+    cursor: pointer;
+}
+
+.button-disable:active,
+.button-enable:active {
+    transform: scale(0.9);
+}
+
+@media only screen and (max-width: 650px) {
+    .audio-vid-test-container {
+        /*
+            component box-sizing: 
+            border-box
+
+            computed:
+            navbar padding(top&bottom): 20px
+            logo height: 75px
+            total: 95px
+
+            optional: 
+            1px solid bottom border
+        */
+        height: calc(100vh - 95px);
+        padding: 10px;
+    }
+}

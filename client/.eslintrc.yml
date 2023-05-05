@@ -1,0 +1,21 @@
+root: ''
+env:
+  browser: true
+  es2021: true
+  serviceworker: true
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+overrides: []
+parser: "@babel/eslint-parser"
+parserOptions:
+  ecmaVersion: 13
+  sourceType: module
+plugins:
+  - react
+rules: {
+  react/prop-types: off,
+  class-methods-use-this: off,
+  import/extensions: off,
+  no-new: off
+}

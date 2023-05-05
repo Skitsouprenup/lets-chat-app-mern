@@ -1,0 +1,37 @@
+.content-container {
+    width: 300px;
+    height: 350px;
+    background-color: lightgray;
+    border-radius: 5px;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    font-size: 1.25rem;
+}
+
+.call-logo {
+    width: 100px;
+    height: 100px;
+}
+
+.modal-button {
+    width: 125px;
+    height: 35px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.modal-button:hover {
+    border: 2px solid green;
+    cursor: pointer;
+}
+
+.modal-button:active {
+    transform: scale(0.99);
+    border: 2px solid brown;
+}

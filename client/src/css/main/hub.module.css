@@ -1,0 +1,15 @@
+.hub-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 650px) {
+    .hub-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+}

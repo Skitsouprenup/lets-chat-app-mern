@@ -1,0 +1,25 @@
+{
+  "name": "lets-chat-server-nodejs",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "lint": "eslint ./",
+    "start": "nodemon index.js",
+    "production": "NODE_ENV=production node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.38.0",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.0.3",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
