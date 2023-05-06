@@ -30,8 +30,9 @@ import {
 } from '../../../scripts/sinch/sinchclientwrapper';
 import { useVerifyUserSession } from '../../../customhooks/useverifyusersession';
 import useInitSocketIoEvents from '../../../customhooks/hubcontentuseeffects/useinitsocketioevents';
+import { getHostDomain } from '../../../scripts/utilities';
 
-const socket = io.connect(process.env.SERVER_DOMAIN, {
+const socket = io.connect(getHostDomain(), {
     autoConnect: false
 });
 

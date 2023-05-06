@@ -1,10 +1,13 @@
+import { getHostDomain } from "../utilities.js";
+
 export const verifySession = (
     navigate, setLoading,
     setUsername, signal) => {
+    const domain = getHostDomain();
 
-    if (process.env.SERVER_DOMAIN) {
+    if (domain) {
         setLoading(true);
-        const url = process.env.SERVER_DOMAIN + '/api/users/verifysession';
+        const url = domain + '/api/users/verifysession';
 
         const request = new Request(url, {
             method: 'GET',

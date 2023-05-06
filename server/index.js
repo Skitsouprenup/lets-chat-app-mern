@@ -10,6 +10,7 @@ const path = require('path');
 const UserRouter = require('./src/routers/users/userrouter.js');
 const { socketOps } = require('./src/socketio/socketops');
 const SMSRouter = require('./src/routers/sms/smsrouter');
+const { getHostDomain } = require('./utilities.js');
 
 dotenv.config();
 const app = express();
@@ -34,7 +35,7 @@ app.use(session({
 }));
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: getHostDomain(),
     methods: 'GET,POST,PATCH,DELETE,OPTIONS',
     credentials: true,
     optionsSuccessStatus: 200,
@@ -52,7 +53,7 @@ app.get('/*', (_req, res) => {
 
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: 'http://localhost:3000',
+    cors: getHostDomain(),
     methods: ['GET', 'POST'],
 });
 socketOps(io);

@@ -1,7 +1,10 @@
-export const registerUser = (credentials, navigate, setLoading) => {
+import { getHostDomain } from "../utilities.js";
 
-    if (process.env.SERVER_DOMAIN) {
-        const url = process.env.SERVER_DOMAIN + '/api/users/register';
+export const registerUser = (credentials, navigate, setLoading) => {
+    const domain = getHostDomain();
+
+    if (domain) {
+        const url = domain + '/api/users/register';
 
         const request = new Request(url, {
             method: 'POST',

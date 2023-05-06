@@ -1,6 +1,10 @@
+import { getHostDomain } from "../utilities.js";
+
 export const logOutUser = (navigate) => {
-    if (process.env.SERVER_DOMAIN) {
-        const url = process.env.SERVER_DOMAIN + '/api/users/logout';
+    const domain = getHostDomain();
+
+    if (domain) {
+        const url = domain + '/api/users/logout';
 
         const request = new Request(url, {
             method: 'GET',

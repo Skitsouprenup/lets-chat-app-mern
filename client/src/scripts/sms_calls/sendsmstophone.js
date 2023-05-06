@@ -1,9 +1,12 @@
-export const sendSMSToPhone = (messageInfo, setMessageStatus) => {
+import { getHostDomain } from "../utilities.js";
 
-    if (process.env.SERVER_DOMAIN) {
+export const sendSMSToPhone = (messageInfo, setMessageStatus) => {
+    const domain = getHostDomain();
+
+    if (domain) {
         setMessageStatus('SENDING');
 
-        const url = process.env.SERVER_DOMAIN + '/api/sms/outboundsms';
+        const url = domain + '/api/sms/outboundsms';
 
         const request = new Request(url, {
             method: 'POST',

@@ -1,8 +1,11 @@
 import { instantiateSinchClient } from '../sinch/sinchclientwrapper.js';
+import { getHostDomain } from '../utilities.js';
 
 export const loginUser = (credentials, navigate) => {
-    if (process.env.SERVER_DOMAIN) {
-        const url = process.env.SERVER_DOMAIN + '/api/users/login';
+    const domain = getHostDomain();
+
+    if (domain) {
+        const url = domain + '/api/users/login';
 
         const request = new Request(url, {
             method: 'POST',
