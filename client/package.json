@@ -8,7 +8,8 @@
   "type": "module",
   "scripts": {
     "start": "webpack serve --port 3000",
-    "build": "NODE_ENV=production webpack"
+    "build-local": "NODE_ENV=production ENV_CONF=local webpack",
+    "build-remote": "NODE_ENV=production ENV_CONF=remote webpack"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

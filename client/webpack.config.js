@@ -1,4 +1,5 @@
 const prod = process.env.NODE_ENV === 'production';
+const envconf = process.env.ENV_CONF;
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -107,7 +108,7 @@ const webPackConfig = {
       Example: Object.entries(prod ? process.env : dotenv.config().parsed)
     */
     new webpack.DefinePlugin({
-      ...Object.entries(dotenv.config().parsed).
+      ...Object.entries(envconf === 'local' ? dotenv.config().parsed : process.env).
         reduce((acc, curr) => (
           {
             ...acc,
