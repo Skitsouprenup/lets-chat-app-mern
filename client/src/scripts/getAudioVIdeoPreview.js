@@ -54,7 +54,7 @@ export const getAudioVideoPreview =
             setCamNotDetected(false);
         } catch (err) {
             if (!cancelLoading.cancel)
-                console.error("Video Stream Error: " + err);
+                console.log("Video Stream Error: " + err);
         }
         try {
             const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -67,7 +67,7 @@ export const getAudioVideoPreview =
             setMicNotDetected(false);
         } catch (err) {
             if (!cancelLoading.cancel)
-                console.error("Audio Stream Error: " + err);
+                console.log("Audio Stream Error: " + err);
         }
 
         if (cancelLoading.cancel) return;
