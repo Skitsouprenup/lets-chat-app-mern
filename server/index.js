@@ -11,6 +11,7 @@ const UserRouter = require('./src/routers/users/userrouter.js');
 const { socketOps } = require('./src/socketio/socketops');
 const SMSRouter = require('./src/routers/sms/smsrouter');
 const { getHostDomain } = require('./utilities.js');
+const JWT = require('./src/sinch/jwt');
 
 dotenv.config();
 const app = express();
@@ -46,6 +47,29 @@ app.use(express.static('public'));
 
 app.use('/api/users', UserRouter);
 app.use('/api/sms', SMSRouter);
+
+app.post('/api/sinchjwt', (req, res) => {
+    const userId = req.body?.userId;
+
+    if (!req.session?.username) {
+        res.sendStatus(403);
+        return;
+    }
+    if (!userId) {
+        res.sendStatus(401);
+        return;
+    }
+
+    new JWT(
+        process.env.SINCH_CLIENT_APP_KEY,
+        process.env.SINCH_CLIENT_APP_SECRET,
+        userId).
+        toJwt().
+        then((key) => {
+            res.status(200);
+            res.send({ key });
+        });
+})
 
 app.get('/*', (_req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
