@@ -7,7 +7,7 @@
   "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
-    "start": "webpack serve --port 3000",
+    "start": "ENV_CONF=local webpack serve --port 3000",
     "build-local": "NODE_ENV=production ENV_CONF=local webpack",
     "build-remote": "NODE_ENV=production ENV_CONF=remote webpack"
   },

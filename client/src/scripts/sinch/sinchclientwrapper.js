@@ -1,12 +1,23 @@
-import JWT from './jwt.js';
 import CallOperations from '../sms_calls/callops.js';
+import { fetchSinchClientJWT } from './fetchsinchclientjwt.js';
 
 let sinchClientInstance = null;
 
-export const instantiateSinchClient = (username) => {
-  if (sinchClientInstance === null)
-    sinchClientInstance = new SinchClientWrapper(username);
+export const instantiateSinchClient = async (username) => {
+  if (sinchClientInstance === null) {
+    const jwt = await fetchSinchClientJWT(username);
+    sinchClientInstance = new SinchClientWrapper(username, jwt);
+  }
 }
+
+export const instantiateSinchClientLoggedIn =
+  async (username, setSMSCallModal) => {
+    if (sinchClientInstance === null) {
+      const jwt = await fetchSinchClientJWT(username);
+      sinchClientInstance = new SinchClientWrapper(username, jwt);
+      getCallOperations().setCallModalStateSetter(setSMSCallModal);
+    }
+  }
 
 export const terminateSinchClient = () => {
   if (sinchClientInstance !== null) {
@@ -26,8 +37,7 @@ export const getUserId = () => {
 }
 
 class SinchClientWrapper {
-  constructor(userId) {
-    this.userId = userId;
+  constructor(userId, jwt) {
 
     const sinchClient = Sinch.getSinchClientBuilder()
       .applicationKey(process.env.SINCH_CLIENT_APP_KEY)
@@ -35,7 +45,7 @@ class SinchClientWrapper {
       .environmentHost(process.env.SINCH_CLIENT_ENVIRONMENT_HOST)
       .build();
 
-    sinchClient.addListener(this.#sinchClientListener());
+    sinchClient.addListener(this.#sinchClientListener(jwt));
     sinchClient.setSupportManagedPush('sinchclient-sw.js');
     sinchClient.start();
 
@@ -50,19 +60,7 @@ class SinchClientWrapper {
   #sinchClientListener(jwt) {
     return {
       onCredentialsRequired: (_sinchClient, clientRegistration) => {
-
-        /*
-          Will put on the back-end in the future
-        */
-        return new JWT(
-          process.env.SINCH_CLIENT_APP_KEY,
-          process.env.SINCH_CLIENT_APP_SECRET, this.userId)
-          .toJwt()
-          .then(clientRegistration.register)
-          .catch((error) => {
-            clientRegistration.registerFailed();
-            console.error(error);
-          });
+        return clientRegistration.register(jwt.key);
       },
 
       onClientStarted: (_sinchClient) => {

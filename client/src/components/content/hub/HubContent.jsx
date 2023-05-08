@@ -82,8 +82,7 @@ const HubContent = () => {
                 username,
                 phoneNo: ''
             });
-        instantiateSinchClient(username);
-        getCallOperations().setCallModalStateSetter(setSMSCallModal);
+        instantiateSinchClient(username, setSMSCallModal);
     }, [username, loading]);
 
     //get smsCallModal state to check if a user has active modal.
