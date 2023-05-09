@@ -5,7 +5,7 @@ export const getLocalStream = () => {
 }
 
 export const getAudioVideoPreview =
-    async (vidFrame = null, setCamNotDetected = null, setMicNotDetected = null) => {
+    async (vidFrame, setCamNotDetected, setMicNotDetected) => {
 
         //If local stream already exist.
         //Note: this doesn't work on google chrome.
