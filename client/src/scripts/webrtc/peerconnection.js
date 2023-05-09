@@ -20,7 +20,7 @@ let peerConnections = [];
 
     The solution here is to use a TURN server. However, using
     TURN server breaks the peer-to-peer principle of webRTC since
-    audio/video/data will not flow to the TURN servers making it
+    audio/video/data will now flow to the TURN servers making it
     an intermediary server.
 
     For some reason, the TURN server is not used when the STUN

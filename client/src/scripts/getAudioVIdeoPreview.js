@@ -5,8 +5,7 @@ export const getLocalStream = () => {
 }
 
 export const getAudioVideoPreview =
-    async (vidFrame, cancelLoading, setCamNotDetected, setMicNotDetected) => {
-        if (cancelLoading.cancel) return;
+    async (vidFrame = null, setCamNotDetected = null, setMicNotDetected = null) => {
 
         //If local stream already exist.
         //Note: this doesn't work on google chrome.
@@ -42,7 +41,6 @@ export const getAudioVideoPreview =
         */
 
         localStream = new MediaStream();
-
         try {
             const vidStream = await navigator.mediaDevices.getUserMedia({ video: true });
             /*
@@ -51,10 +49,9 @@ export const getAudioVideoPreview =
             */
             vidStream.getTracks()[0].enabled = false;
             localStream.addTrack(vidStream.getTracks()[0]);
-            setCamNotDetected(false);
+            if (setCamNotDetected) setCamNotDetected(false);
         } catch (err) {
-            if (!cancelLoading.cancel)
-                console.log("Video Stream Error: " + err);
+            console.log("Video Stream Error: " + err);
         }
         try {
             const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -64,13 +61,10 @@ export const getAudioVideoPreview =
             */
             audioStream.getTracks()[0].enabled = false;
             localStream.addTrack(audioStream.getTracks()[0]);
-            setMicNotDetected(false);
+            if (setMicNotDetected) setMicNotDetected(false);
         } catch (err) {
-            if (!cancelLoading.cancel)
-                console.log("Audio Stream Error: " + err);
+            console.log("Audio Stream Error: " + err);
         }
-
-        if (cancelLoading.cancel) return;
 
         if (vidFrame) {
             vidFrame.current.srcObject = localStream;

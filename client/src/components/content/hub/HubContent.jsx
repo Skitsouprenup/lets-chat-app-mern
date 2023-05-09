@@ -31,6 +31,7 @@ import {
 import { useVerifyUserSession } from '../../../customhooks/useverifyusersession';
 import useInitSocketIoEvents from '../../../customhooks/hubcontentuseeffects/useinitsocketioevents';
 import { getHostDomain } from '../../../scripts/utilities';
+import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 
 const socket = io.connect(getHostDomain(), {
     autoConnect: false
@@ -54,6 +55,16 @@ const HubContent = () => {
             closePeerConnections(socket, hubComponent.roomId);
         }
     }
+
+    //get A/V Input and broadcast attendees in meeting room
+    const connectWithPeersInRoom =
+        async (vidFrame, setCamNotDetected, setMicNotDetected) => {
+            await getAudioVideoPreview(
+                vidFrame,
+                setCamNotDetected, setMicNotDetected);
+            if (hubComponent?.userType === 'ATTENDEE')
+                socket.emit('server-broadcast-joined-socket', hubComponent?.roomId);
+        }
 
     //Initialize Remote Streams for meeting room
     useEffect(() => {
@@ -112,7 +123,8 @@ const HubContent = () => {
                 <MeetingRoom
                     setHubComponent={setHubComponent}
                     remoteStreams={remoteStreams}
-                    leaveSocketFromRoom={leaveSocketFromRoom} /> :
+                    leaveSocketFromRoom={leaveSocketFromRoom}
+                    connectWithPeersInRoom={connectWithPeersInRoom} /> :
                 <>
                     <ModalComponent
                         socket={socket}

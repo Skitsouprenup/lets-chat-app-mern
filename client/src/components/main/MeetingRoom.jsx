@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styles from '../../css/main/meetingroom.module.css';
-import { getAudioVideoPreview } from '../../scripts/getAudioVIdeoPreview';
 import avtStyles from '../../css/content/hub/audiovidtest.module.css';
 import {
     BiMicrophone, BiMicrophoneOff, BiVideo,
@@ -17,7 +16,8 @@ import {
 const MeetingRoom = (
     { setHubComponent,
         remoteStreams,
-        leaveSocketFromRoom }) => {
+        leaveSocketFromRoom,
+        connectWithPeersInRoom }) => {
 
     const [enableCam, setEnableCam] = useState(false);
     const [enableMic, setEnableMic] = useState(false);
@@ -53,13 +53,13 @@ const MeetingRoom = (
         }
     }, [remoteStreams]);
 
+    const peerReady = useRef(false);
     useEffect(() => {
-        let cancelLoading = { cancel: false };
-        getAudioVideoPreview(
-            vidFrame, cancelLoading,
-            setCamNotDetected, setMicNotDetected);
+        if (peerReady.current) return;
 
-        return () => cancelLoading.cancel = true;
+        connectWithPeersInRoom(vidFrame, setCamNotDetected, setMicNotDetected);
+
+        return () => peerReady.current = true;
     }, []);
 
     useCamMicToggle(vidFrame, enableCam, enableMic);
@@ -89,7 +89,6 @@ const MeetingRoom = (
                                     <div key={`attendees-vid-cont-${index}`}>
                                         <video
                                             autoPlay={true}
-                                            muted={false}
                                             key={`attendees-vid-${index}`}>
                                             Video Not Supported
                                         </video>

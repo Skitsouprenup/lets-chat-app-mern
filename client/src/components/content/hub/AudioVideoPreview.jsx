@@ -10,7 +10,7 @@ import {
 import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 import { useCamMicToggle } from '../../../customhooks/usecammictoggle';
 
-const AudioVideoPreview = () => {
+const AudioVideoPreview = (hubComponent) => {
   const [enableCam, setEnableCam] = useState(false);
   const [enableMic, setEnableMic] = useState(false);
   const [camNotDetected, setCamNotDetected] = useState(true);
@@ -18,15 +18,15 @@ const AudioVideoPreview = () => {
 
   const vidFrame = useRef(null);
 
+  const mediaReady = useRef(false);
   useEffect(() => {
-    let cancelLoading = { cancel: false };
+    if (mediaReady.current) return;
+
     getAudioVideoPreview(
-      vidFrame, cancelLoading,
-      setCamNotDetected, setMicNotDetected);
+      vidFrame, setCamNotDetected, setMicNotDetected);
 
-    return () => cancelLoading.cancel = true;
+    return () => mediaReady.current = true;
   }, []);
-
   useCamMicToggle(vidFrame, enableCam, enableMic);
 
   return (
@@ -41,8 +41,7 @@ const AudioVideoPreview = () => {
         </div>
 
         <video
-          autoPlay={true}
-          muted={false}
+          autoPlay
           ref={vidFrame}
           className={avtStyles['video-frame']}>Video Not Supported</video>
         <div className={avtStyles['button-container']}>

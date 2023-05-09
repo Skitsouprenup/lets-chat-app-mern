@@ -82,4 +82,15 @@
     width: 150px;
     height: 35px;
     font-size: 1rem;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.button-container button:hover {
+    background-color: hsl(54, 77%, 80%);
+}
+
+.button-container button:active {
+    background-color: hsl(54, 77%, 65%);
 }

@@ -9,12 +9,10 @@ export const joinRoomEvents = (socket, setHubComponent, setModalComponent) => {
     //Join success
     socket.on(clientEvents[0], (data) => {
 
-        if (data.userType !== 'HOST') {
-            socket.emit('server-broadcast-joined-socket', data.roomId);
-        }
         setHubComponent({
             comp: data.comp,
-            roomId: data.roomId
+            roomId: data.roomId,
+            userType: data.userType
         });
         setModalComponent('');
     });
