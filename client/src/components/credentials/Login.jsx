@@ -12,23 +12,24 @@ const Login = () => {
 
     return (
         <div className={styles['login-container']}>
-            <form className={styles['login-form']}>
+            <form className={styles['login-form']} autoComplete="on">
                 <img src={Logo} alt='logo' className={styles['login-logo']} />
 
                 <div className={styles['input-wrapper']}>
                     <label htmlFor='username'>Username</label>
                     <input
                         type='input'
-                        name="username"
+                        id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
+                        onChange={(e) => setUsername(e.target.value)}
+                        autoComplete="on" />
                 </div>
 
                 <div className={styles['input-wrapper']}>
                     <label htmlFor='password'>Password</label>
                     <input
                         type='password'
-                        name='password'
+                        id='password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} />
                 </div>

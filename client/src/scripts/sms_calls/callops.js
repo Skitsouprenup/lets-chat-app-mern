@@ -20,6 +20,7 @@ export default class CallOperations {
                         isInbound: true,
                         remoteUser: call.remoteUserId
                     });
+                    this.#audio = new Audio();
                     this.#audio.srcObject = call.incomingStream;
                 }
             },
@@ -28,7 +29,7 @@ export default class CallOperations {
         //fields
         this.#callClient = callClient;
         this.#modalState = null;
-        this.#audio = new Audio();
+        this.#audio = null;
 
         //methods/functions
         this.#setCallState = null;
@@ -42,7 +43,7 @@ export default class CallOperations {
             this.#audio.play();
             call['answer']();
         };
-        this.hangupCall = () => call['hangup']();
+        this.hangupCall = () => call.hangup();;
     }
 
     answerCall() {
@@ -75,8 +76,9 @@ export default class CallOperations {
     async makeCall(callee) {
         const call = await this.#callClient.callUser(callee);
         this.#callListeners(call);
-        this.hangupCall = () => call['hangup']();
+        this.hangupCall = () => call.hangup();;
 
+        this.#audio = new Audio();
         this.#audio.srcObject = call.incomingStream;
         this.#audio.play();
     }
@@ -91,8 +93,7 @@ export default class CallOperations {
             },
             onCallEnded: () => {
                 this.#modalState = '';
-                this.#audio.pause();
-                this.#audio.srcObject = null;
+                this.#audio = null;
                 this.#setCallStatus('Call Ended');
             },
         });

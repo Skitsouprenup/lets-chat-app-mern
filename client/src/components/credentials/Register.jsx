@@ -17,7 +17,7 @@ const Register = () => {
         <div className={styles['register-container']}>
             {
                 loading ? <h1>Loading...</h1> :
-                    <form className={styles['register-form']}>
+                    <form className={styles['register-form']} autoComplete="on">
                         <img src={Logo} alt='logo' className={styles['register-logo']} />
                         <h3>Register</h3>
                         <div className={styles['input-wrapper']}>
@@ -25,28 +25,29 @@ const Register = () => {
                             <label htmlFor='username'>Username</label>
                             <input
                                 type='input'
-                                name='username'
+                                id='username'
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)} />
+                                onChange={(e) => setUsername(e.target.value)}
+                                autoComplete="on" />
 
                             <label htmlFor='password'>Password</label>
                             <input
                                 type='password'
-                                name='password'
+                                id='password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)} />
 
                             <label htmlFor='e-mail'>E-mail</label>
                             <input
                                 type='input'
-                                name='e-mail'
+                                id='e-mail'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)} />
 
                             <label htmlFor='fullname'>Full Name</label>
                             <input
                                 type='input'
-                                name='fullname'
+                                id='fullname'
                                 value={fullname}
                                 onChange={(e) => setFullName(e.target.value)} />
 

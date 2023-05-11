@@ -69,7 +69,11 @@ const MeetingRoom = (
             <div className={styles['top-container']}>
                 <div className={styles['videos-container']}>
                     <video
-                        className={styles['host-tiny-vid-frame']}
+                        className={
+                            styles[
+                            !enableChat ? 'host-tiny-vid-frame' :
+                                'host-tiny-vid-frame-chat-on'
+                            ]}
                         autoPlay={true}
                         muted
                         ref={vidFrame}>

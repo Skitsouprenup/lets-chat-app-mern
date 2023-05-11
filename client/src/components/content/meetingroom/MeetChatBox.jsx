@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../css/content/meetingroom/meetchatbox.module.css';
 
 import { broadCastChatMsg } from '../../../scripts/webrtc/broadcastchat';
 
 import { BiPaperPlane } from "react-icons/bi";
+import { mediaQueryJS } from '../../../scripts/utilities';
 
 const MeetChatBox = ({ messages, setMessagesToList }) => {
     const [inputMessage, setInputMessage] = useState('');
+    const [dummyDiv, setDummyDiv] = useState(true);
+
+    //remove dummy div in the chatbox at a certain browser width
+    useEffect(() => {
+        const toggleDummyDiv =
+            () => setDummyDiv(mediaQueryJS('only screen and (min-width: 500px)'));
+        window.addEventListener('resize', toggleDummyDiv);
+
+        return () => window.removeEventListener('resize', toggleDummyDiv);
+    }, []);
 
     return (
         <>
@@ -24,15 +35,15 @@ const MeetChatBox = ({ messages, setMessagesToList }) => {
                                 {
                                     message.userType === 'USER' ?
                                         <>
-                                            <div>
+                                            <div className={styles['user-chat-container']}>
                                                 <p className={styles['user-chat']}>
                                                     {message.message}
                                                 </p>
                                             </div>
-                                            <div></div>
+                                            {dummyDiv ? <div></div> : null}
                                         </> :
                                         <>
-                                            <div></div>
+                                            {dummyDiv ? <div></div> : null}
                                             <div className={styles['peer-chat-container']}>
                                                 <p className={styles['peer-chat']}>
                                                     {message.message}
@@ -50,6 +61,7 @@ const MeetChatBox = ({ messages, setMessagesToList }) => {
                 <div>
                     <textarea
                         value={inputMessage}
+                        name='chat-message-input'
                         onChange={(e) => setInputMessage(e.target.value)}></textarea>
                 </div>
                 <button

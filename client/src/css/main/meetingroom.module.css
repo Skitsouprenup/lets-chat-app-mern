@@ -8,7 +8,7 @@
 .top-container {
     flex-grow: 1;
     display: grid;
-    grid-template-columns: minmax(70%, 1fr) auto;
+    grid-template-columns: minmax(65%, 1fr) auto;
 }
 
 .chat-container {
@@ -26,8 +26,19 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
+    width: 17%;
+    height: 17%;
+    margin: 5px;
+    background-color: black;
+    border: 1px solid white;
+}
+
+.host-tiny-vid-frame-chat-on {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34%;
+    height: 17%;
     margin: 5px;
     background-color: black;
     border: 1px solid white;
@@ -57,6 +68,7 @@
     flex-wrap: wrap;
     padding: 20px;
     column-gap: 10px;
+    row-gap: 10px;
     justify-content: center;
     border-top: 1px solid black;
 }
@@ -75,4 +87,28 @@
 
 .chat-btn-active:active {
     transform: scale(0.9);
+}
+
+@media only screen and (min-width: 600px) {
+
+    .host-tiny-vid-frame,
+    .host-tiny-vid-frame-chat-on {
+        width: 100px;
+    }
+}
+
+@media only screen and (min-height: 600px) {
+
+    .host-tiny-vid-frame,
+    .host-tiny-vid-frame-chat-on {
+        height: 100px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    .top-container {
+        display: grid;
+        grid-template-columns: minmax(50%, 1fr) auto;
+    }
 }

@@ -20,7 +20,7 @@
     width: 300px;
     height: 250px;
     padding: 5px;
-    background-color: lightgray;
+    background-color: hsl(0, 0%, 90%);
     border-radius: 5px;
     border: 1px solid white;
     display: flex;
@@ -52,7 +52,7 @@
 }
 
 .headers-title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     border-bottom: 1px solid black;
     padding-bottom: 5px;
 }
@@ -64,6 +64,7 @@
 }
 
 .headers-input>input[type="input"] {
+    width: 100%;
     height: 30px;
     font-size: 1rem;
     outline: none;
@@ -93,4 +94,11 @@
 
 .button-container button:active {
     background-color: hsl(54, 77%, 65%);
+}
+
+@media only screen and (max-width: 325px) {
+    .content-container {
+        width: 100%;
+        margin: 0 5px;
+    }
 }

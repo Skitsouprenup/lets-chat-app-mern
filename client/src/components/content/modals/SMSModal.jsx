@@ -26,6 +26,7 @@ const SMSModal = (
                         <input
                             type='input'
                             value={phone}
+                            name='phoneNo'
                             onChange={(e) => setPhone(e.target.value)} />
                     </div>
                 </div>

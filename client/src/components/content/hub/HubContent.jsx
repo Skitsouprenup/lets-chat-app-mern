@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../../scripts/crud/logoutuser';
 import {
     getCallOperations,
-    instantiateSinchClient,
+    instantiateSinchClientLoggedIn,
     terminateSinchClient
 } from '../../../scripts/sinch/sinchclientwrapper';
 import { useVerifyUserSession } from '../../../customhooks/useverifyusersession';
@@ -93,19 +93,18 @@ const HubContent = () => {
                 username,
                 phoneNo: ''
             });
-        instantiateSinchClient(username, setSMSCallModal);
+        instantiateSinchClientLoggedIn(username, setSMSCallModal);
     }, [username, loading]);
 
     //get smsCallModal state to check if a user has active modal.
     //A user with active modal can't be called.
     useEffect(() => {
         if (getCallOperations()) {
-
-            if (smsCallModal?.type)
-                getCallOperations().setModalState(smsCallModal.type);
-            if (hubComponent?.comp)
-                getCallOperations().setModalState(hubComponent.comp);
-
+            getCallOperations().
+                setModalState(
+                    smsCallModal?.type ? smsCallModal.type :
+                        hubComponent?.comp ? hubComponent.comp : ''
+                );
         }
 
     }, [smsCallModal]);

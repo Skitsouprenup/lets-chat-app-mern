@@ -7,3 +7,10 @@
     display: flex;
     flex-direction: column;
 }
+
+@media only screen and (max-width: 325px) {
+    .content-container {
+        width: 100%;
+        margin: 0 5px;
+    }
+}

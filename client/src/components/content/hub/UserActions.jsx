@@ -15,6 +15,7 @@ const UserActions = (props) => {
                         <input
                             type="input"
                             placeholder='Enter Meeting Code'
+                            name="meeting-code-input"
                             value={props.meetingCode}
                             onChange={(e) => props.setMeetingCode(e.target.value)} />
                         <button onClick={() => props.setModalComponent('JOIN_MEETING')}>

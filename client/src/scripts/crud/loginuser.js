@@ -1,4 +1,3 @@
-import { instantiateSinchClient } from '../sinch/sinchclientwrapper.js';
 import { getHostDomain } from '../utilities.js';
 
 export const loginUser = (credentials, navigate) => {
@@ -25,9 +24,8 @@ export const loginUser = (credentials, navigate) => {
                 }
                 else alert('Login failed.');
             }).
-            then((data) => {
+            then(async (data) => {
                 if (data) {
-                    instantiateSinchClient(data?.username);
                     navigate('/hub');
                 }
             }).

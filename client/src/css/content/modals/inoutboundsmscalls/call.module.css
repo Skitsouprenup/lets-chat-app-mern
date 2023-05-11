@@ -35,3 +35,10 @@
     transform: scale(0.99);
     border: 2px solid brown;
 }
+
+@media only screen and (max-width: 325px) {
+    .content-container {
+        width: 100%;
+        margin: 0 5px;
+    }
+}

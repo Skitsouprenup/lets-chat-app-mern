@@ -81,6 +81,7 @@ const InOutBoundSMS = ({ phoneNo, setSMSCallModal }) => {
                     <div>
                         <textarea
                             value={message}
+                            name='chat-message-input'
                             onChange={(e) => setMessage(e.target.value)}></textarea>
                     </div>
                     <button

@@ -10,7 +10,7 @@ import {
 import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 import { useCamMicToggle } from '../../../customhooks/usecammictoggle';
 
-const AudioVideoPreview = (hubComponent) => {
+const AudioVideoPreview = () => {
   const [enableCam, setEnableCam] = useState(false);
   const [enableMic, setEnableMic] = useState(false);
   const [camNotDetected, setCamNotDetected] = useState(true);

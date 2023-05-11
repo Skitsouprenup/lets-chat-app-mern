@@ -47,9 +47,15 @@
     width: fit-content;
 }
 
+.user-chat-container {
+    display: flex;
+    margin-right: 5px;
+}
+
 .peer-chat-container {
     display: flex;
     flex-direction: row-reverse;
+    margin-left: 5px;
 }
 
 .chat-input-container {

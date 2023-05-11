@@ -20,6 +20,7 @@ const CallModal = ({ setModalComponent, setSMSCallModal }) => {
                         <p>Username</p>
                         <input
                             type='input'
+                            name='username'
                             value={user}
                             onChange={(e) => setUser(e.target.value)} />
                     </div>
