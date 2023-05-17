@@ -19,7 +19,8 @@ const SMSCallModal = ({
                 user={smsCallModal?.user}
                 setSMSCallModal={setSMSCallModal}
                 isInbound={smsCallModal?.isInbound ? true : false}
-                remoteUser={smsCallModal?.remoteUser} />;
+                remoteUser={smsCallModal?.remoteUser}
+                acceptHide={smsCallModal?.acceptHide ? smsCallModal.acceptHide : false} />;
 
         default:
             return null;

@@ -52,7 +52,7 @@
 }
 
 .headers-title {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     border-bottom: 1px solid black;
     padding-bottom: 5px;
 }
@@ -80,7 +80,7 @@
 }
 
 .button-container button {
-    width: 150px;
+    width: 180px;
     height: 35px;
     font-size: 1rem;
     background-color: white;

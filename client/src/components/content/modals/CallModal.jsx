@@ -3,7 +3,8 @@ import modalStyles from '../../../css/content/modals/modals.module.css';
 import { getCallOperations } from '../../../scripts/sinch/sinchclientwrapper';
 
 const CallModal = ({ setModalComponent, setSMSCallModal }) => {
-    const [user, setUser] = useState('');
+    const [input, setInput] = useState('');
+    const [callType, setCallType] = useState('App');
 
     return (
         <div
@@ -14,24 +15,31 @@ const CallModal = ({ setModalComponent, setSMSCallModal }) => {
             <div className={modalStyles['content-container']}>
                 <div className={modalStyles['headers']}>
                     <div className={modalStyles['headers-title']}>
-                        <h3>Make a Call</h3>
+                        <h3>Make a Call({callType})</h3>
                     </div>
                     <div className={modalStyles['headers-input']}>
-                        <p>Username</p>
+                        <p>{callType === 'App' ? 'Username' : 'Phone Number(+)'}</p>
                         <input
                             type='input'
-                            name='username'
-                            value={user}
-                            onChange={(e) => setUser(e.target.value)} />
+                            name='userinput'
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)} />
                     </div>
                 </div>
                 <div className={modalStyles['button-container']}>
+                    <button onClick={() => {
+                        callType === 'App' ?
+                            setCallType('PSTN') :
+                            setCallType('App')
+                    }}>
+                        Switch to {callType} call
+                    </button>
                     <button
-                        disabled={user.trim() ? false : true}
+                        disabled={input.trim() ? false : true}
                         onClick={() => {
                             setModalComponent('');
-                            getCallOperations().makeCall(user);
-                            setSMSCallModal({ type: 'CALL', user });
+                            getCallOperations().makeCall(input, callType);
+                            setSMSCallModal({ type: 'CALL', input });
                         }}>
                         Start Call
                     </button>

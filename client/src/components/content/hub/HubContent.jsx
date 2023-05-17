@@ -33,6 +33,8 @@ import useInitSocketIoEvents from '../../../customhooks/hubcontentuseeffects/use
 import { getHostDomain } from '../../../scripts/utilities';
 import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 
+import { callNotifEvent, removeCallNotifEvent } from '../../../scripts/socketio/callevent';
+
 const socket = io.connect(getHostDomain(), {
     autoConnect: false
 });
@@ -79,10 +81,19 @@ const HubContent = () => {
         return () => removeSMSNotifEvts(socket);
     }, [smsCallModal]);
 
+    //Call notification
+    useEffect(() => {
+        callNotifEvent(socket, modalComponent, smsCallModal, username);
+        return () => removeCallNotifEvent(socket);
+    }, [username, smsCallModal, modalComponent]);
+
     //Verify User Session
     useVerifyUserSession(navigate, setLoading, setUsername);
     //Init socket.io events
-    useInitSocketIoEvents(socket, setHubComponent, setModalComponent);
+    useInitSocketIoEvents(
+        socket,
+        setHubComponent,
+        setModalComponent);
 
     //Set user as active and setup sinch client
     useEffect(() => {
@@ -91,7 +102,8 @@ const HubContent = () => {
         setActiveUser(socket,
             {
                 username,
-                phoneNo: ''
+                phoneNo: '',
+                virtualNo: process.env.SINCH_VIRTUAL_NUMBER_TRIAL
             });
         instantiateSinchClientLoggedIn(username, setSMSCallModal);
     }, [username, loading]);
@@ -144,7 +156,7 @@ const HubContent = () => {
                                 aria-label='logout button'
                                 onClick={() => {
                                     terminateSinchClient();
-                                    logOutUser(navigate);
+                                    logOutUser(username, navigate);
                                 }}>
                                 <BiLogOutCircle /><p>Logout</p>
                             </div>

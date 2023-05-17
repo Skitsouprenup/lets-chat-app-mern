@@ -9,6 +9,7 @@ const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     return (
         <div className={styles['login-container']}>
@@ -22,7 +23,8 @@ const Login = () => {
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        autoComplete="on" />
+                        autoComplete="on"
+                        disabled={loading} />
                 </div>
 
                 <div className={styles['input-wrapper']}>
@@ -31,25 +33,32 @@ const Login = () => {
                         type='password'
                         id='password'
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading} />
                 </div>
 
-                <div className={styles['login-buttons-wrapper']}>
-                    <input
-                        type='button'
-                        value='Sign in'
-                        id={styles['signin-button']}
-                        onClick={() => {
-                            loginUser({
-                                username,
-                                password
-                            }, navigate);
-                        }} />
-                    <input
-                        type='button'
-                        value='Sign up'
-                        onClick={() => navigate('./register')} />
-                </div>
+                {
+                    loading ?
+                        <div className={styles['wait-div']}>
+                            <p>Please Wait...</p>
+                        </div> :
+                        <div className={styles['login-buttons-wrapper']}>
+                            <input
+                                type='button'
+                                value='Sign in'
+                                id={styles['signin-button']}
+                                onClick={() => {
+                                    loginUser({
+                                        username,
+                                        password,
+                                    }, navigate, setLoading);
+                                }} />
+                            <input
+                                type='button'
+                                value='Sign up'
+                                onClick={() => navigate('./register')} />
+                        </div>
+                }
 
             </form>
         </div>

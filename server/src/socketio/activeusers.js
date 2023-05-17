@@ -4,6 +4,16 @@ const getActiveUsers = () => {
     return activeUsers;
 }
 
+const removeActiveUser = (username) => {
+
+    for (let i = 0; i < activeUsers.length; i++) {
+        if (activeUsers[i].username === username) {
+            activeUsers.splice(i, 1);
+            break;
+        }
+    }
+}
+
 const activeUsersEvents = (socket) => {
 
     socket.on('server-active-user', (data) => {
@@ -19,7 +29,8 @@ const activeUsersEvents = (socket) => {
         if (!exists) {
             activeUsers.push({
                 username: data.username,
-                phoneNo: data.phoneNo
+                phoneNo: data.phoneNo,
+                virtualNo: data.virtualNo
             });
         }
     });
@@ -34,4 +45,4 @@ const activeUsersEvents = (socket) => {
     })
 };
 
-module.exports = { getActiveUsers, activeUsersEvents };
+module.exports = { getActiveUsers, activeUsersEvents, removeActiveUser };

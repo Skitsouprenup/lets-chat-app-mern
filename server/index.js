@@ -12,6 +12,7 @@ const { socketOps } = require('./src/socketio/socketops');
 const SMSRouter = require('./src/routers/sms/smsrouter');
 const { getHostDomain } = require('./utilities.js');
 const JWT = require('./src/sinch/jwt');
+const CallsRouter = require('./src/routers/calls/callsrouter');
 
 dotenv.config();
 const app = express();
@@ -47,6 +48,7 @@ app.use(express.static('public'));
 
 app.use('/api/users', UserRouter);
 app.use('/api/sms', SMSRouter);
+app.use('/api/calls', CallsRouter);
 
 app.post('/api/sinchjwt', (req, res) => {
     const userId = req.body?.userId;

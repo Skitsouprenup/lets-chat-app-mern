@@ -8,10 +8,11 @@ const InOutBoundCall = ({
     user,
     setSMSCallModal,
     isInbound = false,
-    remoteUser = '' }) => {
+    remoteUser = '',
+    acceptHide = false }) => {
 
     const [callState, setCallState] = useState('');
-    const [hideAccept, setHideAccept] = useState(false);
+    const [hideAccept, setHideAccept] = useState(acceptHide);
 
     useEffect(() => {
         getCallOperations().setCallStateSetter(setCallState);
@@ -41,8 +42,8 @@ const InOutBoundCall = ({
                         <>
                             {
                                 !isInbound ?
-                                    <p>Calling {user}</p> :
-                                    <p>Call from {remoteUser}</p>
+                                    <p>Calling {user.slice(0, 6)}...</p> :
+                                    <p>Call from {remoteUser.slice(0, 6)}...</p>
                             }
                             <p>{callState}</p>
                         </> : <p>{callState}</p>

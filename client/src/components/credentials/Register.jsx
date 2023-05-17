@@ -15,43 +15,50 @@ const Register = () => {
 
     return (
         <div className={styles['register-container']}>
-            {
-                loading ? <h1>Loading...</h1> :
-                    <form className={styles['register-form']} autoComplete="on">
-                        <img src={Logo} alt='logo' className={styles['register-logo']} />
-                        <h3>Register</h3>
-                        <div className={styles['input-wrapper']}>
+            <form className={styles['register-form']} autoComplete="on">
+                <img src={Logo} alt='logo' className={styles['register-logo']} />
+                <h3>Register</h3>
+                <div className={styles['input-wrapper']}>
 
-                            <label htmlFor='username'>Username</label>
-                            <input
-                                type='input'
-                                id='username'
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                autoComplete="on" />
+                    <label htmlFor='username'>Username</label>
+                    <input
+                        type='input'
+                        id='username'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        autoComplete="on"
+                        disabled={loading} />
 
-                            <label htmlFor='password'>Password</label>
-                            <input
-                                type='password'
-                                id='password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)} />
+                    <label htmlFor='password'>Password</label>
+                    <input
+                        type='password'
+                        id='password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading} />
 
-                            <label htmlFor='e-mail'>E-mail</label>
-                            <input
-                                type='input'
-                                id='e-mail'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)} />
+                    <label htmlFor='e-mail'>E-mail</label>
+                    <input
+                        type='input'
+                        id='e-mail'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={loading} />
 
-                            <label htmlFor='fullname'>Full Name</label>
-                            <input
-                                type='input'
-                                id='fullname'
-                                value={fullname}
-                                onChange={(e) => setFullName(e.target.value)} />
+                    <label htmlFor='fullname'>Full Name</label>
+                    <input
+                        type='input'
+                        id='fullname'
+                        value={fullname}
+                        onChange={(e) => setFullName(e.target.value)}
+                        disabled={loading} />
 
-                        </div>
+                </div>
+                {
+                    loading ?
+                        <div className={styles['wait-div']}>
+                            <p>Please Wait...</p>
+                        </div> :
                         <div className={styles['register-buttons-wrapper']}>
                             <input
                                 type='button'
@@ -70,8 +77,8 @@ const Register = () => {
                                 value='Cancel'
                                 onClick={() => navigate('/')} />
                         </div>
-                    </form>
-            }
+                }
+            </form>
         </div>
     );
 };

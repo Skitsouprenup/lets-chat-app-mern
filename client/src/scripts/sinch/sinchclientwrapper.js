@@ -42,6 +42,7 @@ class SinchClientWrapper {
     const sinchClient = Sinch.getSinchClientBuilder()
       .applicationKey(process.env.SINCH_CLIENT_APP_KEY)
       .userId(userId)
+      .callerIdentifier(process.env.SINCH_VIRTUAL_NUMBER_TRIAL)
       .environmentHost(process.env.SINCH_CLIENT_ENVIRONMENT_HOST)
       .build();
 

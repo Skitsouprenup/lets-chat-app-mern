@@ -1,3 +1,4 @@
+const { removeActiveUser } = require("../../socketio/activeusers");
 
 const logOutUser = (req, res) => {
 
@@ -20,6 +21,7 @@ const logOutUser = (req, res) => {
                 res.sendStatus(500);
                 return;
             }
+            removeActiveUser(req.query?.username);
             res.sendStatus(200);
         })
     })

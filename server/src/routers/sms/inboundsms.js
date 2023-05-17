@@ -1,7 +1,7 @@
 const { notifyUserForSMS } = require("../../socketio/sms/smsops.js");
 
 const inBoundSMS = (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     const phoneNo = '+' + req.body?.from;
     notifyUserForSMS({

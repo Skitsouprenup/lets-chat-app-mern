@@ -1,10 +1,10 @@
 import { getHostDomain } from "../utilities.js";
 
-export const logOutUser = (navigate) => {
+export const logOutUser = (username, navigate) => {
     const domain = getHostDomain();
 
     if (domain) {
-        const url = domain + '/api/users/logout';
+        const url = domain + `/api/users/logout?username=${username}`;
 
         const request = new Request(url, {
             method: 'GET',

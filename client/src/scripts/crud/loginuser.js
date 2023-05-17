@@ -1,9 +1,11 @@
 import { getHostDomain } from '../utilities.js';
 
-export const loginUser = (credentials, navigate) => {
+export const loginUser = (credentials, navigate, setLoading) => {
     const domain = getHostDomain();
 
     if (domain) {
+        setLoading(true);
+
         const url = domain + '/api/users/login';
 
         const request = new Request(url, {
@@ -28,9 +30,11 @@ export const loginUser = (credentials, navigate) => {
                 if (data) {
                     navigate('/hub');
                 }
+                setLoading(false);
             }).
             catch((err) => {
                 console.error(err);
+                setLoading(false);
             });
     }
     else console.error("Server Domain is missing!");

@@ -22,7 +22,7 @@ const SMSModal = (
                         <h3>SMS message</h3>
                     </div>
                     <div className={modalStyles['headers-input']}>
-                        <p>Phone Number</p>
+                        <p>Phone Number(+)</p>
                         <input
                             type='input'
                             value={phone}

@@ -8,7 +8,10 @@ import {
 } from '../../scripts/webrtc/signaling.js';
 import { useEffect } from 'react';
 
-const useInitSocketIoEvents = (socket, setHubComponent, setModalComponent) => {
+const useInitSocketIoEvents = (
+    socket,
+    setHubComponent,
+    setModalComponent) => {
     useEffect(() => {
 
         if (!socket.isConnected) {
