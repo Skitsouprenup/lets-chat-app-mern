@@ -28,9 +28,10 @@ const activeUsersEvents = (socket) => {
 
         if (!exists) {
             activeUsers.push({
-                username: data.username,
-                phoneNo: data.phoneNo,
-                virtualNo: data.virtualNo
+                username: data?.username,
+                phoneNo: data?.phoneNo,
+                sinchVirtualNo: data?.sinchVirtualNo,
+                twilioVirtualNo: data?.twilioVirtualNo,
             });
         }
     });

@@ -1,6 +1,6 @@
 const fetch = require('cross-fetch');
 
-const outBoundSMS = async (req, res) => {
+const sinchOutboundSMS = async (req, res) => {
 
     const sendSMS = {
         from: process.env.SINCH_VIRTUAL_NUMBER_TRIAL,
@@ -34,5 +34,5 @@ const outBoundSMS = async (req, res) => {
 
 module.exports =
 {
-    outBoundSMS,
+    sinchOutboundSMS,
 };

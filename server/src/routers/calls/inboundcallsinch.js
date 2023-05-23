@@ -4,8 +4,11 @@ const {
     cancelCall
 } = require("../../socketio/calls/callsops");
 
-
-const inboundCall = (req, res) => {
+/*
+    Sinch returns multiple events when an incoming
+    call connects to our server.
+*/
+const inboundCallSinch = (req, res) => {
     //console.log(req.body);
     const eventType = req.body?.event;
     const destination = req.body?.to?.endpoint;
@@ -14,9 +17,12 @@ const inboundCall = (req, res) => {
 
     setInboundCallResponse(res);
     switch (eventType) {
+        //Incoming Call Event
         case 'ice':
 
             switch (toType) {
+                //PSTN. This type comes from an
+                //inbound phone call
                 case 'did':
                     if (!notifyUserForCall({
                         virtualNo: destination,
@@ -28,8 +34,17 @@ const inboundCall = (req, res) => {
 
                 //Confirm app that calls for conference
                 /*
-                    TODO: include for next refactor
+                    This is not used anymore. This toType
+                    can be generated if an inApp client
+                    invoke callConference() function.
+                    This statement let the client join
+                    the conference that it's specified.
+
+                    New implementation uses 'conferenceCallout'
+                    and its confirmation is sent via trigerring 
+                    'onIncomingCall' event in SinchClient
                 */
+                /*
                 case 'conference':
                     res.status(200).
                         send({
@@ -49,8 +64,10 @@ const inboundCall = (req, res) => {
                         });
                     //console.log('Client Connected to Conference', destination);
                     break;
+                */
 
                 default:
+                    console.log(toType + ' is invalid or not handled!');
                     setInboundCallResponse(null);
                     res.sendStatus(403);
             }
@@ -61,6 +78,7 @@ const inboundCall = (req, res) => {
             res.sendStatus(200);
             break;
 
+        //Disconnected Call Event
         case 'dice':
             setInboundCallResponse(null);
             res.sendStatus(200);
@@ -73,12 +91,14 @@ const inboundCall = (req, res) => {
 
         case 'notify':
             console.log('Notification Event');
+            res.sendStatus(200);
             break;
 
         default:
+            console.error('invalid event type!')
             setInboundCallResponse(null);
             res.sendStatus(403);
     }
 }
 
-module.exports = inboundCall;
+module.exports = inboundCallSinch;

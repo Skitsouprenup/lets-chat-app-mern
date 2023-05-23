@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export default class CallOperations {
     #callClient;
     #modalState;
@@ -32,12 +30,23 @@ export default class CallOperations {
     }
 
     /*
-        TODO: include for next refactor
+        This function is not used anymore 
+        because this client is now invited
+        via conferenceCallout in the server.
+        onIncomingCall event of this client 
+        will be triggered if a conference 
+        invitation is received.
+
+        The advantage of 'conferenceCallout'
+        over 'callConference' is that 
+        conference region can be changed 
+        in 'conferenceCallout'
     */
+    /*
     async createConference(remoteNumber) {
         this.#confId = uuidv4();
+        
         //Invite client to a conference
-        /*
         const call = await this.#callClient.callConference(this.#confId);
 
         if (!this.#modalState && this.#setCallModalState) {
@@ -54,10 +63,11 @@ export default class CallOperations {
             this.#audio.srcObject = call.incomingStream;
             this.#audio.play();
         }
-        */
+        
 
         return this.#confId;
     }
+    */
 
     #handleIncomingCall(call) {
         if (!this.#modalState && this.#setCallModalState) {
@@ -66,7 +76,8 @@ export default class CallOperations {
             this.#setCallModalState({
                 type: 'CALL',
                 isInbound: true,
-                remoteUser: call.remoteUserId
+                remoteUser: call.remoteUserId,
+                provider: 'Sinch'
             });
             this.#audio = new Audio();
             this.#audio.srcObject = call.incomingStream;

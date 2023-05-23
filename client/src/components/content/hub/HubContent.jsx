@@ -24,7 +24,7 @@ import { closePeerConnections } from '../../../scripts/webrtc/peerconnection';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../../scripts/crud/logoutuser';
 import {
-    getCallOperations,
+    getSinchCallOperations,
     instantiateSinchClientLoggedIn,
     terminateSinchClient
 } from '../../../scripts/sinch/sinchclientwrapper';
@@ -34,6 +34,7 @@ import { getHostDomain } from '../../../scripts/utilities';
 import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 
 import { callNotifEvent, removeCallNotifEvent } from '../../../scripts/socketio/callevent';
+import { getTwilioCallOperations, twilioClient } from '../../../scripts/twilio/twilioclient';
 
 const socket = io.connect(getHostDomain(), {
     autoConnect: false
@@ -74,14 +75,15 @@ const HubContent = () => {
         return () => unSetRemoteStreamsState();
     }, [remoteStreams]);
 
-    //SMS notifications
+    //SMS notifications. Update the event when modal state changes
+    //In order to update the modal value in the event
     useEffect(() => {
         smsNotifEvts(socket, smsCallModal, username);
-
         return () => removeSMSNotifEvts(socket);
     }, [smsCallModal]);
 
-    //Call notification
+    //Call notification. Update the event when modal state changes
+    //In order to update the modal value in the event
     useEffect(() => {
         callNotifEvent(socket, modalComponent, smsCallModal, username);
         return () => removeCallNotifEvent(socket);
@@ -103,23 +105,35 @@ const HubContent = () => {
             {
                 username,
                 phoneNo: '',
-                virtualNo: process.env.SINCH_VIRTUAL_NUMBER_TRIAL
+                sinchVirtualNo: process.env.SINCH_VIRTUAL_NUMBER_TRIAL,
+                twilioVirtualNo: process.env.TWILIO_VIRTUAL_NUMBER_TRIAL,
             });
+        //Init sinch client
         instantiateSinchClientLoggedIn(username, setSMSCallModal);
+        //Init twilio voice SDK
+        twilioClient(username, setSMSCallModal);
     }, [username, loading]);
 
     //get smsCallModal state to check if a user has active modal.
     //A user with active modal can't be called.
     useEffect(() => {
-        if (getCallOperations()) {
-            getCallOperations().
+        //Sinch Client
+        if (getSinchCallOperations()) {
+            getSinchCallOperations().
                 setModalState(
                     smsCallModal?.type ? smsCallModal.type :
                         hubComponent?.comp ? hubComponent.comp : ''
                 );
         }
 
-    }, [smsCallModal]);
+        //Twilio
+        if(getTwilioCallOperations()) {
+            getTwilioCallOperations().
+            setSMSCallModalState(
+                smsCallModal?.type ? smsCallModal.type :
+                hubComponent?.comp ? hubComponent.comp : '');
+        }
+    }, [smsCallModal, hubComponent]);
 
     //Loading Screen
     if (loading) {

@@ -1,8 +1,10 @@
 const { getActiveUsers } = require('../activeusers.js');
 const fetch = require('cross-fetch');
+const { uuid } = require('uuidv4');
 
 let ioRef = null;
 let inboundCallResponse = null;
+let contact = null;
 
 const initCallIo = (io) => {
     ioRef = io;
@@ -12,9 +14,10 @@ const setInboundCallResponse = (response) => {
     inboundCallResponse = response;
 }
 
-const inviteCallerToConference = async (confId) => {
+const invitePhoneAndClientToConference = async (username) => {
     if (!inboundCallResponse) return;
 
+    const confId = uuid();
     /*
         Note: Phone and client region must be the same in
         order for the conference to work. To know the designated
@@ -23,7 +26,8 @@ const inviteCallerToConference = async (confId) => {
         Available Regions:
         https://developers.sinch.com/docs/voice/api-reference/#endpoints
     */
-    const resp = await fetch(
+    //Invite client to conference
+    await fetch(
         `https://calling-euc1.api.sinch.com/calling/v1/callouts`,
         {
             method: 'POST',
@@ -38,15 +42,16 @@ const inviteCallerToConference = async (confId) => {
                 conferenceCallout: {
                     destination: {
                         type: 'username',
-                        endpoint: 'Kayle'
+                        endpoint: username
                     },
                     conferenceId: confId
                 }
             })
         }
     );
-    console.log('Callout', await resp.text());
 
+    //connect inbound call to conference
+    //phone region is expected to be in 'euc1' region
     inboundCallResponse.
         status(200).
         send({
@@ -93,7 +98,7 @@ const confirmCallNotifs = (socket) => {
     socket.on('server-confirm-call-notif', (data) => {
         if (data?.status === 'ACCEPT') {
             //console.log('accepted!');
-            inviteCallerToConference(data.confId);
+            invitePhoneAndClientToConference(data.username);
         }
         else {
             cancelCall();
@@ -111,10 +116,13 @@ const notifyUserForCall = (data) => {
 
     user = getActiveUsers().find((user) => {
         //console.log(user.virtualNo, data.virtualNo);
-        return user.virtualNo === data.virtualNo;
+        return user.sinchVirtualNo === data.virtualNo;
     });
 
     if (user) {
+        contact = data.remoteNumber;
+        if (!contact.startsWith('+'))
+            contact = '+' + contact;
         ioRef.emit('client-notify-call',
             {
                 username: user.username,

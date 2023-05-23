@@ -12,12 +12,14 @@ const SMSCallModal = ({
         case 'SMS':
             return <InOutBoundSMS
                 phoneNo={smsCallModal?.phoneNo}
-                setSMSCallModal={setSMSCallModal} />
+                setSMSCallModal={setSMSCallModal}
+                provider={smsCallModal?.provider} />
 
         case 'CALL':
             return <InOutBoundCall
-                user={smsCallModal?.user}
+                input={smsCallModal?.input}
                 setSMSCallModal={setSMSCallModal}
+                provider={smsCallModal?.provider}
                 isInbound={smsCallModal?.isInbound ? true : false}
                 remoteUser={smsCallModal?.remoteUser}
                 acceptHide={smsCallModal?.acceptHide ? smsCallModal.acceptHide : false} />;

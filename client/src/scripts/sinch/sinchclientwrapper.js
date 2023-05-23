@@ -1,4 +1,4 @@
-import CallOperations from '../sms_calls/callops.js';
+import CallOperations from '../sms_calls/sinchcalloperations.js';
 import { fetchSinchClientJWT } from './fetchsinchclientjwt.js';
 
 let sinchClientInstance = null;
@@ -15,7 +15,7 @@ export const instantiateSinchClientLoggedIn =
     if (sinchClientInstance === null) {
       const jwt = await fetchSinchClientJWT(username);
       sinchClientInstance = new SinchClientWrapper(username, jwt);
-      getCallOperations().setCallModalStateSetter(setSMSCallModal);
+      getSinchCallOperations().setCallModalStateSetter(setSMSCallModal);
     }
   }
 
@@ -26,7 +26,7 @@ export const terminateSinchClient = () => {
   }
 }
 
-export const getCallOperations = () => {
+export const getSinchCallOperations = () => {
   return sinchClientInstance?.callOperations;
 }
 

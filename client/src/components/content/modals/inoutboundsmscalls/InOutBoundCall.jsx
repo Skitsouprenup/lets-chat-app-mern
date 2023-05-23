@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import CallLogo from '../../../../assets/images/call_logo.png';
 import styles from '../../../../css/content/modals/inoutboundsmscalls/call.module.css';
 import modalStyles from '../../../../css/content/modals/modals.module.css';
-import { getCallOperations } from '../../../../scripts/sinch/sinchclientwrapper.js';
+import { getSinchCallOperations } from '../../../../scripts/sinch/sinchclientwrapper.js';
+import { getTwilioCallOperations } from '../../../../scripts/twilio/twilioclient';
 
 const InOutBoundCall = ({
-    user,
+    input,
     setSMSCallModal,
+    provider,
     isInbound = false,
     remoteUser = '',
     acceptHide = false }) => {
@@ -14,9 +16,46 @@ const InOutBoundCall = ({
     const [callState, setCallState] = useState('');
     const [hideAccept, setHideAccept] = useState(acceptHide);
 
+    const answerCall = () => {
+        setHideAccept(true);
+        switch(provider) {
+            case 'Sinch':
+                getSinchCallOperations().answerCall();
+                break;
+
+            case 'Twilio':
+                getTwilioCallOperations().answerCall();
+                break;
+        }
+    }
+
+    const hangupCall = () => {
+        switch(provider) {
+            case 'Sinch':
+                getSinchCallOperations().hangupCall();
+                getSinchCallOperations().setModalState('');
+                break;
+
+            case 'Twilio':
+                getTwilioCallOperations().hangupCall();
+                getTwilioCallOperations().setSMSCallModalState('');
+                break;
+        }
+        setSMSCallModal({});
+    }
+
+    //set Call Status
     useEffect(() => {
-        getCallOperations().setCallStateSetter(setCallState);
-    }, []);
+        switch(provider) {
+            case 'Sinch':
+                getSinchCallOperations().setCallStateSetter(setCallState);
+                break;
+            
+            case 'Twilio':
+                getTwilioCallOperations().setCallStatusSetter(setCallState);
+                break;
+        }
+    }, [provider]);
 
     useEffect(() => {
 
@@ -24,6 +63,7 @@ const InOutBoundCall = ({
         if (callState === 'Call Ended') {
             setTimeout(() => {
                 setSMSCallModal({});
+                setCallState('');
             }, 2000);
         }
 
@@ -42,7 +82,7 @@ const InOutBoundCall = ({
                         <>
                             {
                                 !isInbound ?
-                                    <p>Calling {user.slice(0, 6)}...</p> :
+                                    <p>Calling {input.slice(0, 6)}...</p> :
                                     <p>Call from {remoteUser.slice(0, 6)}...</p>
                             }
                             <p>{callState}</p>
@@ -52,11 +92,7 @@ const InOutBoundCall = ({
                     (isInbound && !hideAccept) ?
                         <button
                             className={styles['modal-button']}
-                            onClick={() => {
-                                setHideAccept(true);
-                                getCallOperations().answerCall();
-                            }}
-                        >
+                            onClick={answerCall}>
                             Accept
                         </button> : null
                 }
@@ -64,11 +100,7 @@ const InOutBoundCall = ({
                     callState !== 'Call Ended' ?
                         <button
                             className={styles['modal-button']}
-                            onClick={() => {
-                                getCallOperations().hangupCall();
-                                getCallOperations().setModalState('');
-                                setSMSCallModal({});
-                            }}>
+                            onClick={hangupCall}>
                             Hang Up
                         </button> : null
                 }

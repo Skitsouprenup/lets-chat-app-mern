@@ -1,4 +1,4 @@
-import { getCallOperations } from "../sinch/sinchclientwrapper.js";
+import { getSinchCallOperations } from "../sinch/sinchclientwrapper.js";
 
 export const callNotifEvent = (socket, modalComponent, smsCallModal, loggedInUsername) => {
     socket.on('client-notify-call', async (data) => {
@@ -11,12 +11,11 @@ export const callNotifEvent = (socket, modalComponent, smsCallModal, loggedInUse
         }
 
         if (loggedInUsername === data.username) {
-            if (getCallOperations()) {
+            if (getSinchCallOperations()) {
                 socket.emit('server-confirm-call-notif', {
                     username: data.username,
                     socketId: socket.id,
-                    status: 'ACCEPT',
-                    confId: await getCallOperations().createConference(data.remoteNumber)
+                    status: 'ACCEPT'
                 });
             }
         }

@@ -53,7 +53,7 @@ const notifyUserForSMS = (data) => {
     if (user) {
         addMessageToQueue({
             username: user.username,
-            message: data.message
+            message: data.message,
         });
         ioRef.emit('client-notify-sms', user.username);
     }

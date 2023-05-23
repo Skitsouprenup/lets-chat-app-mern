@@ -16,6 +16,7 @@ const webPackConfig = {
   mode: prod ? 'production' : 'development',
   entry: {
     'app': './src/App.jsx',
+    'twilio.min': './twilio.min.js',
     'sinchclient-sw': './src/scripts/serviceworkers/sinchclient-sw.js',
   },
   output: {

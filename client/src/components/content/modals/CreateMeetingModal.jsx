@@ -15,11 +15,11 @@ const CreateMeetingModal = ({ setModalComponent, socket }) => {
                         className={modalStyles['modal-lightbox']}
                         onClick={() => setModalComponent('')}></div>
                     <div className={modalStyles['content-container']}>
-                        <div className={modalStyles['headers']}>
-                            <div className={modalStyles['headers-title']}>
+                        <div className={modalStyles['top-content']}>
+                            <div className={modalStyles['top-content-title']}>
                                 <h3>Create Meeting</h3>
                             </div>
-                            <div className={modalStyles['headers-code']}>
+                            <div className={modalStyles['top-content-meeting-code']}>
                                 <p>
                                     <span>
                                         Meeting Code:

@@ -10,8 +10,9 @@ import {
     clearMessages, setMessagesState, unSetMessagesState,
     setMessages as setMessagesToList
 } from '../../../../scripts/messagesgop.js';
+import ChatContainer from '../../ChatContainer';
 
-const InOutBoundSMS = ({ phoneNo, setSMSCallModal }) => {
+const InOutBoundSMS = ({ phoneNo, setSMSCallModal, provider }) => {
     const [message, setMessage] = useState('');
     const [messageStatus, setMessageStatus] = useState('READY');
     const [messages, setMessages] = useState([]);
@@ -46,36 +47,7 @@ const InOutBoundSMS = ({ phoneNo, setSMSCallModal }) => {
                 <div className={chatBoxStyles['info-container']}>
                     <p>To: {phoneNo.slice(0, 5)}...</p>
                 </div>
-
-                <div className={chatBoxStyles['chat-msg-container']}>
-                    {
-                        messages.map((message, index) => {
-                            return (
-                                <div key={`chat-message-${index}`}>
-                                    {
-                                        message.userType === 'USER' ?
-                                            <>
-                                                <div>
-                                                    <p className={chatBoxStyles['user-chat']}>
-                                                        {message.message}
-                                                    </p>
-                                                </div>
-                                                <div></div>
-                                            </> :
-                                            <>
-                                                <div></div>
-                                                <div className={chatBoxStyles['peer-chat-container']}>
-                                                    <p className={chatBoxStyles['peer-chat']}>
-                                                        {message.message}
-                                                    </p>
-                                                </div>
-                                            </>
-                                    }
-                                </div>
-                            );
-                        })
-                    }
-                </div>
+                <ChatContainer messages={messages}/>
 
                 <div className={chatBoxStyles['chat-input-container']}>
                     <div>
@@ -87,7 +59,13 @@ const InOutBoundSMS = ({ phoneNo, setSMSCallModal }) => {
                     <button
                         disabled={messageStatus === 'READY' ? false : true}
                         onClick={() =>
-                            sendSMSToPhone({ message, phoneNo }, setMessageStatus)}>
+                            sendSMSToPhone(
+                                { 
+                                    message,
+                                    phoneNo,
+                                }, 
+                                setMessageStatus, 
+                                provider)}>
                         <BiPaperPlane size='1.75em' />
                     </button>
                 </div>
