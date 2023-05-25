@@ -1,4 +1,5 @@
 import { getHostDomain } from "../utilities.js";
+import { setActiveUser } from "./setactiveuser.js";
 
 export const verifySession = (
     navigate, setLoading,
@@ -27,9 +28,8 @@ export const verifySession = (
             }).
             then((data) => {
                 if (data?.username) {
-                    navigate(`/hub`);
-                    setUsername(data.username);
-                    setLoading(false);
+                    setUsername(data?.username);
+                    setActiveUser(data?.username, setLoading);
                 } else navigate(`/`);
             }).
             catch((e) => {

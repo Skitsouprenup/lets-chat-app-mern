@@ -39,7 +39,7 @@ app.use(session({
 
 app.use(cors({
     origin: getHostDomain(),
-    methods: 'GET,POST,PATCH,DELETE,OPTIONS',
+    methods: 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     credentials: true,
     optionsSuccessStatus: 200,
 }));

@@ -14,7 +14,6 @@ import {
     setRemoteStreamsState,
     unSetRemoteStreamsState
 } from '../../../scripts/remotestreamsop';
-import { setActiveUser } from '../../../scripts/socketio/activeusers';
 import {
     removeSMSNotifEvts,
     smsNotifEvts
@@ -35,6 +34,7 @@ import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 
 import { callNotifEvent, removeCallNotifEvent } from '../../../scripts/socketio/callevent';
 import { getTwilioCallOperations, twilioClient } from '../../../scripts/twilio/twilioclient';
+import Profile from '../../main/Profile';
 
 const socket = io.connect(getHostDomain(), {
     autoConnect: false
@@ -54,8 +54,8 @@ const HubContent = () => {
 
     const leaveSocketFromRoom = () => {
         if (hubComponent?.roomId) {
-            socket.emit('leave_room', hubComponent.roomId);
-            closePeerConnections(socket, hubComponent.roomId);
+            socket.emit('leave_room', hubComponent?.roomId);
+            closePeerConnections(socket, hubComponent?.roomId);
         }
     }
 
@@ -100,14 +100,6 @@ const HubContent = () => {
     //Set user as active and setup sinch client
     useEffect(() => {
         if (loading) return;
-
-        setActiveUser(socket,
-            {
-                username,
-                phoneNo: '',
-                sinchVirtualNo: process.env.SINCH_VIRTUAL_NUMBER_TRIAL,
-                twilioVirtualNo: process.env.TWILIO_VIRTUAL_NUMBER_TRIAL,
-            });
         //Init sinch client
         instantiateSinchClientLoggedIn(username, setSMSCallModal);
         //Init twilio voice SDK
@@ -150,6 +142,10 @@ const HubContent = () => {
                     remoteStreams={remoteStreams}
                     leaveSocketFromRoom={leaveSocketFromRoom}
                     connectWithPeersInRoom={connectWithPeersInRoom} /> :
+             hubComponent?.comp === 'PROFILE' ? 
+                <Profile 
+                    setHubComponent={setHubComponent}
+                    username={username} /> :
                 <>
                     <ModalComponent
                         socket={socket}
@@ -165,14 +161,26 @@ const HubContent = () => {
                     <div className={styles['hubcontent-container']}>
                         <div className={styles['navbar']}>
                             <img src={Logo} alt="logo" className={styles['main-logo']} />
-                            <div
-                                className={styles['logout-button-text']}
-                                aria-label='logout button'
-                                onClick={() => {
-                                    terminateSinchClient();
-                                    logOutUser(username, navigate);
-                                }}>
-                                <BiLogOutCircle /><p>Logout</p>
+                            <div className={styles['navbar-button-container']}>
+                                <div
+                                    className={styles['navbar-button-text']}
+                                    aria-label='profile button'
+                                    onClick={() => {
+                                        setHubComponent({
+                                            comp: 'PROFILE',
+                                        });
+                                    }}>
+                                    <p>Profile</p>
+                                </div>
+                                <div
+                                    className={styles['navbar-button-text']}
+                                    aria-label='logout button'
+                                    onClick={() => {
+                                        terminateSinchClient();
+                                        logOutUser(username, navigate);
+                                    }}>
+                                    <BiLogOutCircle /><p>Logout</p>
+                                </div>
                             </div>
                         </div>
 

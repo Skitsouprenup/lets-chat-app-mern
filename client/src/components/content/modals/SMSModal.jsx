@@ -14,8 +14,7 @@ const SMSModal = (
 
     return (
         <div className={modalStyles['modal-container']}>
-            <div
-                className={modalStyles['modal-lightbox']}
+            <div className={modalStyles['modal-lightbox']}
                 onClick={() => setModalComponent('')}></div>
             <div className={modalStyles['content-container-sms-call-modal']}>
                 <div className={modalStyles['top-content']}>

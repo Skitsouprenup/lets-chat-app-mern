@@ -15,19 +15,26 @@
     height: 75px;
 }
 
-.logout-button-text {
+.navbar-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 5px;
+}
+
+.navbar-button-text {
     font-size: 1.20rem;
     display: flex;
     align-items: center;
     column-gap: 2px;
 }
 
-.logout-button-text:hover {
+.navbar-button-text:hover {
     text-decoration: underline;
     cursor: pointer;
 }
 
-.logout-button-text:active {
+.navbar-button-text:active {
     transform: scale(0.9);
 }
 

@@ -3,7 +3,7 @@ import { getHostDomain } from "../utilities.js";
 export const sendSMSToPhone = (messageInfo, setMessageStatus, provider) => {
     const domain = getHostDomain();
 
-    console.log('sendSMSToPhone: ', messageInfo);
+    //console.log('sendSMSToPhone: ', messageInfo);
     if (domain) {
         setMessageStatus('SENDING');
         const url = domain + '/api/sms/'+provider.toLowerCase()+'/outboundsms';
@@ -12,6 +12,9 @@ export const sendSMSToPhone = (messageInfo, setMessageStatus, provider) => {
             method: 'POST',
             mode: 'cors',
             cache: 'no-store',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(messageInfo),
         });
 

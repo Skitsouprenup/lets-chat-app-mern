@@ -1,7 +1,7 @@
 const { notifyUserForSMS } = require('../../../socketio/sms/smsops');
 
 exports.twilioInboundSMS = (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     let phoneNo = req.body?.From;
     phoneNo = 
@@ -11,5 +11,7 @@ exports.twilioInboundSMS = (req, res) => {
         phoneNo,
         message: req.body?.Body
     });
-    res.sendStatus(200);
+    res.set('text/xml');
+    //No Reply
+    res.send('<Response></Response>');
 }

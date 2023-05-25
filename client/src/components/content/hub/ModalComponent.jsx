@@ -14,26 +14,26 @@ const ModalComponent = ({
     switch (modalComponent) {
         case 'JOIN_MEETING':
             return <JoinMeetingModal
-                meetingCode={meetingCode}
-                setModalComponent={setModalComponent}
-                socket={socket} />
+                        meetingCode={meetingCode}
+                        setModalComponent={setModalComponent}
+                        socket={socket} />
 
         case 'CREATE_MEETING':
             return <CreateMeetingModal
-                setModalComponent={setModalComponent}
-                socket={socket} />
+                        setModalComponent={setModalComponent}
+                        socket={socket} />
 
         case 'SMS_MESSAGE':
             return <SMSModal
-                setModalComponent={setModalComponent}
-                setSMSCallModal={setSMSCallModal}
-                username={username}
-                socket={socket} />
+                        setModalComponent={setModalComponent}
+                        setSMSCallModal={setSMSCallModal}
+                        username={username}
+                        socket={socket} />
 
         case 'MAKE_A_CALL':
             return <CallModal
-                setModalComponent={setModalComponent}
-                setSMSCallModal={setSMSCallModal} />
+                        setModalComponent={setModalComponent}
+                        setSMSCallModal={setSMSCallModal} />
 
         default:
             return null;

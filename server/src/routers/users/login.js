@@ -18,7 +18,7 @@ const loginUser = async (req, res) => {
         }, 'username password');
 
         if (!user) {
-            res.sendStatus(400);
+            res.sendStatus(404);
             return;
         }
 

@@ -14,27 +14,20 @@ const removeActiveUser = (username) => {
     }
 }
 
-const activeUsersEvents = (socket) => {
-
-    socket.on('server-active-user', (data) => {
-        let exists = false;
-
-        for (const user of activeUsers) {
-            if (user.username === data.username) {
-                exists = true;
+const updateActiveUserVirtualNosInServer = (
+    username,
+    twilioVirtualNo,
+    sinchVirtualNo) => {
+        for(const user of activeUsers) {
+            if(user.username === username) {
+                user.sinchVirtualNo = sinchVirtualNo;
+                user.twilioVirtualNo = twilioVirtualNo;
                 break;
             }
         }
+}
 
-        if (!exists) {
-            activeUsers.push({
-                username: data?.username,
-                phoneNo: data?.phoneNo,
-                sinchVirtualNo: data?.sinchVirtualNo,
-                twilioVirtualNo: data?.twilioVirtualNo,
-            });
-        }
-    });
+const activeUsersEvents = (socket) => {
 
     socket.on('server-set-user-phone-no', (data) => {
         for (let i = 0; i < activeUsers.length; i++) {
@@ -46,4 +39,9 @@ const activeUsersEvents = (socket) => {
     })
 };
 
-module.exports = { getActiveUsers, activeUsersEvents, removeActiveUser };
+module.exports = { 
+    getActiveUsers, 
+    activeUsersEvents, 
+    removeActiveUser,
+    updateActiveUserVirtualNosInServer 
+};

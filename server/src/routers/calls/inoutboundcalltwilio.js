@@ -3,7 +3,7 @@ const { getActiveUsers } = require('../../socketio/activeusers');
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
 const inOutBoundCallTwilio = (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const toNumberOrClientName = req.body?.To;
     const callerId = process.env.TWILIO_VIRTUAL_NUMBER_TRIAL;
     const twiml = new VoiceResponse();
