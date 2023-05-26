@@ -8,14 +8,21 @@ const SMSModal = (
         setModalComponent,
         setSMSCallModal,
         username,
-        socket }) => {
+        socket,
+        modalMessage,
+        setModalMessage, 
+    }) => {
     const [phone, setPhone] = useState('');
-    const [providerType, setProviderType] = useState('Twilio');
+    const [providerType, setProviderType] = 
+        useState(modalMessage?.twilioVirtualNo ? 'Twilio' : 'Sinch');
 
     return (
         <div className={modalStyles['modal-container']}>
             <div className={modalStyles['modal-lightbox']}
-                onClick={() => setModalComponent('')}></div>
+                onClick={() => {
+                    setModalComponent('');
+                    setModalMessage({});
+                }}></div>
             <div className={modalStyles['content-container-sms-call-modal']}>
                 <div className={modalStyles['top-content']}>
                     <div className={modalStyles['top-content-title']}>
@@ -31,7 +38,9 @@ const SMSModal = (
                     </div>
                     <SMSCallProviderChoices
                         providerType={providerType}
-                        setProviderType={setProviderType} />
+                        setProviderType={setProviderType}
+                        twilioVirtualNoActive={modalMessage?.twilioVirtualNo}
+                        sinchVirtualNoActive={modalMessage?.sinchVirtualNo} />
                 </div>
                 <div className={modalStyles['button-container']}>
                     <button
@@ -39,17 +48,21 @@ const SMSModal = (
                         onClick={() => {
                             setUserPhoneNumber(socket, phone, username);
                             setModalComponent('');
+                            setModalMessage({});
                             setSMSCallModal(
                                 { 
                                     type: 'SMS', 
                                     phoneNo: phone,
-                                    provider: providerType, 
+                                    provider: providerType,
                                 }
                             );
                         }}>
                         Start SMS Chat
                     </button>
-                    <button onClick={() => setModalComponent('')}>
+                    <button onClick={() => {
+                        setModalComponent('');
+                        setModalMessage({});
+                    }}>
                         Cancel
                     </button>
                 </div>

@@ -4,13 +4,22 @@ import { getSinchCallOperations } from '../../../scripts/sinch/sinchclientwrappe
 import { getTwilioCallOperations } from '../../../scripts/twilio/twilioclient';
 import SMSCallProviderChoices from '../SMSCallProviderChoices';
 
-const CallModal = ({ setModalComponent, setSMSCallModal }) => {
+const CallModal = (
+    { 
+        setModalComponent, 
+        setSMSCallModal,
+        modalMessage,
+        setModalMessage 
+    }
+) => {
     const [input, setInput] = useState('');
     const [callType, setCallType] = useState('App');
-    const [providerType, setProviderType] = useState('Twilio');
+    const [providerType, setProviderType] = 
+        useState(modalMessage?.twilioVirtualNo ? 'Twilio' : 'Sinch');
 
     const startCall = () => {
         setModalComponent('');
+        setModalMessage({});
 
         switch(providerType) {
             case 'Sinch':
@@ -34,7 +43,10 @@ const CallModal = ({ setModalComponent, setSMSCallModal }) => {
         <div className={modalStyles['modal-container']}>
             <div
                 className={modalStyles['modal-lightbox']}
-                onClick={() => setModalComponent('')}></div>
+                onClick={() => {
+                    setModalComponent('');
+                    setModalMessage({});
+                }}></div>
             <div className={modalStyles['content-container-sms-call-modal']}>
                 <div className={modalStyles['top-content']}>
                     <div className={modalStyles['top-content-title']}>
@@ -50,7 +62,9 @@ const CallModal = ({ setModalComponent, setSMSCallModal }) => {
                     </div>
                     <SMSCallProviderChoices 
                         providerType={providerType}
-                        setProviderType={setProviderType} />
+                        setProviderType={setProviderType}
+                        twilioVirtualNoActive={modalMessage?.twilioVirtualNo}
+                        sinchVirtualNoActive={modalMessage?.sinchVirtualNo} />
                 </div>
                 <div className={modalStyles['button-container']}>
                     <button onClick={() => {
@@ -65,7 +79,10 @@ const CallModal = ({ setModalComponent, setSMSCallModal }) => {
                         onClick={startCall}>
                         Start Call
                     </button>
-                    <button onClick={() => setModalComponent('')}>
+                    <button onClick={() => {
+                        setModalComponent('');
+                        setModalMessage({});
+                    }}>
                         Close
                     </button>
                 </div>

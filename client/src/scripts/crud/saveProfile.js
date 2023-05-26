@@ -1,10 +1,11 @@
 import { getHostDomain } from "../utilities.js";
 
 
-const saveProfile = (values) => {
+const saveProfile = (values, setSubmittingForm) => {
         const domain = getHostDomain();
 
         if(domain) {
+            setSubmittingForm(true);
             const url = domain + '/api/users/saveprofile';
 
             const request = new Request(url, {
@@ -35,7 +36,13 @@ const saveProfile = (values) => {
                 if(data) {
                     alert(data);
                 }
-            })
+
+                setSubmittingForm(false);
+            }).
+            catch((e) => {
+                console.error(e);
+                setSubmittingForm(false);
+            });
         } else console.error("Server Domain is missing!");
 }
 

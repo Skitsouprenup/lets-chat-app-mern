@@ -1,5 +1,6 @@
 import React from 'react';
 import uaStyles from '../../../css/content/hub/useractions.module.css';
+import checkUserVirtualNo from '../../../scripts/crud/checkUserVirtualNo.js';
 
 const UserActions = (props) => {
     return (
@@ -28,10 +29,24 @@ const UserActions = (props) => {
                         }}>
                             Create Meeting
                         </button>
-                        <button onClick={() => props.setModalComponent('SMS_MESSAGE')}>
+                        <button onClick={() => {
+                            checkUserVirtualNo(
+                                props.username,
+                                props.setModalMessage, 
+                                props.setModalComponent, 
+                                'SMS_MESSAGE',
+                            );
+                        }}>
                             SMS Message
                         </button>
-                        <button onClick={() => props.setModalComponent('MAKE_A_CALL')}>
+                        <button onClick={() => {
+                            checkUserVirtualNo(
+                                props.username,
+                                props.setModalMessage, 
+                                props.setModalComponent, 
+                                'MAKE_A_CALL',
+                            );
+                        }}>
                             Make a Call
                         </button>
                     </div>

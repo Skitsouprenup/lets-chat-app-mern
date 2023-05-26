@@ -43,6 +43,7 @@ const socket = io.connect(getHostDomain(), {
 const HubContent = () => {
     const [smsCallModal, setSMSCallModal] = useState({});
     const [modalComponent, setModalComponent] = useState('');
+    const [modalMessage, setModalMessage] = useState({});
     const [hubComponent, setHubComponent] = useState({});
 
     const [meetingCode, setMeetingCode] = useState('');
@@ -95,7 +96,8 @@ const HubContent = () => {
     useInitSocketIoEvents(
         socket,
         setHubComponent,
-        setModalComponent);
+        setModalComponent
+    );
 
     //Set user as active and setup sinch client
     useEffect(() => {
@@ -153,7 +155,9 @@ const HubContent = () => {
                         setModalComponent={setModalComponent}
                         meetingCode={meetingCode}
                         setSMSCallModal={setSMSCallModal}
-                        username={username} />
+                        username={username}
+                        modalMessage={modalMessage}
+                        setModalMessage={setModalMessage} />
                     <SMSCallModal
                         smsCallModal={smsCallModal}
                         setSMSCallModal={setSMSCallModal} />
@@ -189,6 +193,7 @@ const HubContent = () => {
                                 setMeetingCode={setMeetingCode}
                                 meetingCode={meetingCode}
                                 setModalComponent={setModalComponent}
+                                setModalMessage={setModalMessage}
                                 username={username} />
                             <AudioVideoPreview />
                         </div>

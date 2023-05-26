@@ -1,7 +1,14 @@
 import React from 'react';
 import modalStyles from '../../css/content/modals/modals.module.css';
 
-const SMSCallProviderChoices = ({providerType, setProviderType}) => {
+const SMSCallProviderChoices = (
+    {
+        providerType, 
+        setProviderType,
+        twilioVirtualNoActive,
+        sinchVirtualNoActive,
+    }
+) => {
 
     const switchProvider = () => {
         providerType === 'Sinch' ?
@@ -19,7 +26,8 @@ const SMSCallProviderChoices = ({providerType, setProviderType}) => {
                         modalStyles['choice-active'] :
                         modalStyles['choice-inactive']
                     }
-                    onClick={switchProvider}>
+                    onClick={switchProvider}
+                    disabled={!twilioVirtualNoActive}>
                     Twilio
                 </button>
                 <button 
@@ -28,7 +36,8 @@ const SMSCallProviderChoices = ({providerType, setProviderType}) => {
                         modalStyles['choice-active'] :
                         modalStyles['choice-inactive']
                     }
-                    onClick={switchProvider}>
+                    onClick={switchProvider}
+                    disabled={!sinchVirtualNoActive}>
                     Sinch
                 </button>
             </div>

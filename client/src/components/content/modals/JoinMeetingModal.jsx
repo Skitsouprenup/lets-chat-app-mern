@@ -6,13 +6,11 @@ const JoinMeetingModal = ({ meetingCode, setModalComponent, socket }) => {
     const [loading, setLoading] = useState(false);
 
     return (
-        <div
-            className={modalStyles['modal-container']}>
+        <div className={modalStyles['modal-container']}>
             {!loading ?
                 <>
-                    <div
-                        className={modalStyles['modal-lightbox']}
-                        onClick={() => setModalComponent('')}></div>
+                    <div className={modalStyles['modal-lightbox']}
+                         onClick={() => setModalComponent('')}></div>
                     <div className={modalStyles['content-container']}>
                         <div className={modalStyles['top-content']}>
                             <div className={modalStyles['top-content-title']}>

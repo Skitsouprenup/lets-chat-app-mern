@@ -29,17 +29,19 @@ const saveProfile = async (req, res) => {
             let message = '';
             for(let i = 0; i < allUsers.length; i++) {
                 if(allUsers[i].username !== username) {
-                    if(allUsers[i].email === email) {
+                    if(allUsers[i].email && allUsers[i].email === email) {
                         importCredentialsExist = true;
                         message = 'E-mail already taken.';
                         break;
                     }
-                    if(allUsers[i].twilioVirtualNo === twilioVirtualNo) {
+                    if(allUsers[i].twilioVirtualNo && 
+                       allUsers[i].twilioVirtualNo === twilioVirtualNo) {
                         importCredentialsExist = true;
                         message = 'Twilio virtual number already taken.';
                         break;
                     }
-                    if(allUsers[i].sinchVirtualNo === sinchVirtualNo) {
+                    if(allUsers[i].sinchVirtualNo &&
+                       allUsers[i].sinchVirtualNo === sinchVirtualNo) {
                         importCredentialsExist = true;
                         message = 'Sinch virtual number already taken.';
                         break;

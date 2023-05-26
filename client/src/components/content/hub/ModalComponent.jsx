@@ -5,10 +5,14 @@ import JoinMeetingModal from '../modals/JoinMeetingModal';
 import SMSModal from '../modals/SMSModal';
 import CallModal from '../modals/CallModal';
 
+import InfoModalBox from '../modals/messagedialogboxes/InfoModalBox';
+import LoadingModalBox from '../modals/messagedialogboxes/LoadingModalBox';
+
 const ModalComponent = ({
     socket, modalComponent,
     setModalComponent, meetingCode,
-    setSMSCallModal, username
+    setSMSCallModal, username,
+    modalMessage, setModalMessage
 }) => {
 
     switch (modalComponent) {
@@ -28,12 +32,25 @@ const ModalComponent = ({
                         setModalComponent={setModalComponent}
                         setSMSCallModal={setSMSCallModal}
                         username={username}
-                        socket={socket} />
+                        socket={socket} 
+                        modalMessage={modalMessage}
+                        setModalMessage={setModalMessage} />
 
         case 'MAKE_A_CALL':
             return <CallModal
                         setModalComponent={setModalComponent}
-                        setSMSCallModal={setSMSCallModal} />
+                        setSMSCallModal={setSMSCallModal}
+                        modalMessage={modalMessage}
+                        setModalMessage={setModalMessage} />
+
+        case 'INFO':
+            return <InfoModalBox 
+                        setModalComponent={setModalComponent}
+                        setModalMessage={setModalMessage}
+                        modalMessage={modalMessage} />
+
+        case 'LOADING':
+            return <LoadingModalBox />
 
         default:
             return null;

@@ -11,6 +11,7 @@ const Profile = ({setHubComponent, username}) => {
     const [sinchVirtualNo, setSinchVirtualNo] = useState('');
 
     const [loading, setLoading] = useState(true);
+    const [submittingForm, setSubmittingForm] = useState(false);
     const [editInput, setEditInput] = useState('');
 
     const saveChanges = (e) => {
@@ -20,7 +21,7 @@ const Profile = ({setHubComponent, username}) => {
             email,
             twilioVirtualNo,
             sinchVirtualNo
-        });
+        }, setSubmittingForm);
     }
 
     useEffect(() => {
@@ -67,12 +68,15 @@ const Profile = ({setHubComponent, username}) => {
                     <div className={styles['field']}>
                         <p>E-mail Address:</p>
                         <p>{email}</p>
-                        <EditInput 
+                        {
+                            !submittingForm ?
+                            <EditInput 
                             input={email}
                             setInput={setEmail}
                             editInput={editInput}
                             setEditInput={setEditInput}
-                            editInputType={'Email'} />
+                            editInputType={'Email'} /> : null
+                        }
                     </div>
 
                     <div className={styles['subsection']}>
@@ -83,36 +87,45 @@ const Profile = ({setHubComponent, username}) => {
                             <div className={styles['field']}>
                                 <p>Twilio:</p>
                                 <p>{twilioVirtualNo}</p>
-                                <EditInput 
+                                {
+                                    !submittingForm ?
+                                    <EditInput 
                                     input={twilioVirtualNo}
                                     setInput={setTwilioVirtualNo}
                                     editInput={editInput}
                                     setEditInput={setEditInput}
-                                    editInputType={'TwilioNo'} />
+                                    editInputType={'TwilioNo'} /> : null
+                                }
                             </div>
                             <div className={styles['field']}>
                                 <p>Sinch:</p>
                                 <p>{sinchVirtualNo}</p>
-                                <EditInput 
+                                {
+                                    !submittingForm ?
+                                    <EditInput 
                                     input={sinchVirtualNo}
                                     setInput={setSinchVirtualNo}
                                     editInput={editInput}
                                     setEditInput={setEditInput}
-                                    editInputType={'SinchNo'} />
+                                    editInputType={'SinchNo'} /> : null
+                                }
                             </div>
                         </div>
                     </div>
 
-                    <div className={styles['button-container']}>
-                        <button
-                            onClick={saveChanges}>
-                            Save Changes
-                        </button>
-                        <button
-                            onClick={() => setHubComponent({})}>
-                            Close
-                        </button>
-                    </div>
+                    {
+                        !submittingForm ?
+                            <div className={styles['button-container']}>
+                            <button
+                                onClick={saveChanges}>
+                                Save Changes
+                            </button>
+                            <button
+                                onClick={() => setHubComponent({})}>
+                                Close
+                            </button>
+                        </div> : <p>Please Wait...</p>
+                    }
                 </form>
             </div>
         </div>
