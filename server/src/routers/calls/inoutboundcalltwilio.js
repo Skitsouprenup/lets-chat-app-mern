@@ -5,11 +5,10 @@ const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const inOutBoundCallTwilio = (req, res) => {
     //console.log(req.body);
     const toNumberOrClientName = req.body?.To;
-    const callerId = process.env.TWILIO_VIRTUAL_NUMBER_TRIAL;
     const twiml = new VoiceResponse();
 
     let incomingPSTNCall = false;
-    //Incoming PSTN Call
+    //Incoming(Phone-to-App) PSTN Call
     for (const user of getActiveUsers()) {
         // If the request to the /voice endpoint is TO your Twilio Number,
         // then it is an incoming call towards your Twilio.Device.
@@ -24,20 +23,31 @@ const inOutBoundCallTwilio = (req, res) => {
         }
     }
 
-    // This is an outgoing call or app-to-app call
+    // This is an outgoing(App-to-Phone) PSTN call or app-to-app call
     if(!incomingPSTNCall) {
         if (toNumberOrClientName) {
 
-            // set the callerId
-            const dial = twiml.dial({callerId});
-    
-            // Check if the 'To' parameter is a Phone Number or Client Name
-            // in order to use the appropriate TwiML noun
-            const attr =
-            isAValidPhoneNumber(toNumberOrClientName) ?
-            'number' :
-            'client';
-            dial[attr]({}, toNumberOrClientName);
+            const callerClient = req.body?.From.split(':')[1];
+            let exists = false;
+            for(const activeUser of getActiveUsers()) {
+                if(activeUser.username === callerClient) {
+                    const callerId = activeUser?.twilioVirtualNo;
+                    exists = true;
+                    // set the callerId
+                    const dial = twiml.dial({callerId});
+            
+                    // Check if the 'To' parameter is a Phone Number or Client Name
+                    // in order to use the appropriate TwiML noun
+                    const attr =
+                    isAValidPhoneNumber(toNumberOrClientName) ?
+                    'number' :
+                    'client';
+                    dial[attr]({}, toNumberOrClientName);
+                    break;
+                }
+            }
+
+            if(!exists) twiml.say('Invalid caller client name!');
         } else {
             twiml.say('Thanks for calling!');
         }

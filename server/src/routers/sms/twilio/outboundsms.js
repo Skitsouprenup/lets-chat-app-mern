@@ -1,9 +1,17 @@
 const twilio = require('twilio');
+const { getVirtualNo } = require('../../../../utilities');
 
 exports.twilioOutboundSMS = (req, res) => {
     //console.log(req.body);
+    const username = req.body?.username;
     const messageBody = req.body?.message;
     const receiver = req.body?.phoneNo;
+
+    const virtualNo = getVirtualNo('Twilio', username);
+    if(!virtualNo) {
+        res.sendStatus(404);
+        return;
+    }
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -13,7 +21,7 @@ exports.twilioOutboundSMS = (req, res) => {
         .create(
             {
                 body: messageBody,
-                from: process.env.TWILIO_VIRTUAL_NUMBER_TRIAL, 
+                from: virtualNo, 
                 to: receiver,
             }
         )

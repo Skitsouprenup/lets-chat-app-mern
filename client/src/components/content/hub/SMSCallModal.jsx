@@ -13,7 +13,8 @@ const SMSCallModal = ({
             return <InOutBoundSMS
                 phoneNo={smsCallModal?.phoneNo}
                 setSMSCallModal={setSMSCallModal}
-                provider={smsCallModal?.provider} />
+                provider={smsCallModal?.provider}
+                username={smsCallModal?.username} />
 
         case 'CALL':
             return <InOutBoundCall

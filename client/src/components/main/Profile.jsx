@@ -58,15 +58,15 @@ const Profile = ({setHubComponent, username}) => {
                 </h2>
                 <form>
                     <div className={styles['field']}>
-                        <p>Username:</p>
+                        <p><b>Username:</b></p>
                         <p>{username}</p>
                     </div>
                     <div className={styles['field']}>
-                        <p>Fullname:</p>
+                        <p><b>Fullname:</b></p>
                         <p>{fullname}</p>
                     </div>
                     <div className={styles['field']}>
-                        <p>E-mail Address:</p>
+                        <p><b>E-mail Address:</b></p>
                         <p>{email}</p>
                         {
                             !submittingForm ?
@@ -85,7 +85,7 @@ const Profile = ({setHubComponent, username}) => {
                         </h4>
                         <div>
                             <div className={styles['field']}>
-                                <p>Twilio:</p>
+                                <p><b>Twilio:</b></p>
                                 <p>{twilioVirtualNo}</p>
                                 {
                                     !submittingForm ?
@@ -98,7 +98,7 @@ const Profile = ({setHubComponent, username}) => {
                                 }
                             </div>
                             <div className={styles['field']}>
-                                <p>Sinch:</p>
+                                <p><b>Sinch:</b></p>
                                 <p>{sinchVirtualNo}</p>
                                 {
                                     !submittingForm ?

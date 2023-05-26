@@ -1,9 +1,22 @@
 const fetch = require('cross-fetch');
+const { getVirtualNo } = require('../../../../utilities');
 
 const sinchOutboundSMS = async (req, res) => {
+    const username = req.body?.username;
+
+    if(!username) {
+        res.sendStatus(401);
+        return;
+    }
+
+    const virtualNo = getVirtualNo('Sinch', username);
+    if(!virtualNo) {
+        res.sendStatus(404);
+        return;
+    } 
 
     const sendSMS = {
-        from: process.env.SINCH_VIRTUAL_NUMBER_TRIAL,
+        from: virtualNo,
         to: [req.body?.phoneNo],
         body: req.body?.message,
     }

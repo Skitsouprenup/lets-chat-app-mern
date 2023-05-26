@@ -54,6 +54,7 @@ const SMSModal = (
                                     type: 'SMS', 
                                     phoneNo: phone,
                                     provider: providerType,
+                                    username
                                 }
                             );
                         }}>

@@ -1,3 +1,4 @@
+const { getActiveUsers } = require('../socketio/activeusers.js');
 const JWT = require('./jwt.js');
 
 const sinchJWT = (req, res) => {
@@ -18,8 +19,21 @@ const sinchJWT = (req, res) => {
         userId).
         toJwt().
         then((key) => {
-            res.status(200);
-            res.send({ key });
+
+            let exists = false;
+            for(const activeUser of getActiveUsers()) {
+                if(activeUser.username === userId) {
+                    exists = true;
+                    res.status(200);
+                    res.send({ 
+                        key, 
+                        sinchVirtualNo: activeUser?.sinchVirtualNo
+                    });
+                    break;
+                }
+            }
+
+            if(!exists) res.sendStatus(404);
         });
 };
 

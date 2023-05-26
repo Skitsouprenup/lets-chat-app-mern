@@ -12,7 +12,7 @@ import {
 } from '../../../../scripts/messagesgop.js';
 import ChatContainer from '../../ChatContainer';
 
-const InOutBoundSMS = ({ phoneNo, setSMSCallModal, provider }) => {
+const InOutBoundSMS = ({ phoneNo, setSMSCallModal, provider, username }) => {
     const [message, setMessage] = useState('');
     const [messageStatus, setMessageStatus] = useState('READY');
     const [messages, setMessages] = useState([]);
@@ -63,6 +63,7 @@ const InOutBoundSMS = ({ phoneNo, setSMSCallModal, provider }) => {
                                 { 
                                     message,
                                     phoneNo,
+                                    username
                                 }, 
                                 setMessageStatus, 
                                 provider)}>

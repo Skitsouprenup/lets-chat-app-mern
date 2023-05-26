@@ -3,18 +3,12 @@ import { fetchSinchClientJWT } from './fetchsinchclientjwt.js';
 
 let sinchClientInstance = null;
 
-export const instantiateSinchClient = async (username) => {
-  if (sinchClientInstance === null) {
-    const jwt = await fetchSinchClientJWT(username);
-    sinchClientInstance = new SinchClientWrapper(username, jwt);
-  }
-}
-
 export const instantiateSinchClientLoggedIn =
   async (username, setSMSCallModal) => {
     if (sinchClientInstance === null) {
       const jwt = await fetchSinchClientJWT(username);
-      sinchClientInstance = new SinchClientWrapper(username, jwt);
+      sinchClientInstance = 
+        new SinchClientWrapper(username, jwt.key, jwt.sinchVirtualNo);
       getSinchCallOperations().setCallModalStateSetter(setSMSCallModal);
     }
   }
@@ -37,12 +31,12 @@ export const getUserId = () => {
 }
 
 class SinchClientWrapper {
-  constructor(userId, jwt) {
+  constructor(userId, jwt, virtualNo) {
 
     const sinchClient = Sinch.getSinchClientBuilder()
       .applicationKey(process.env.SINCH_CLIENT_APP_KEY)
       .userId(userId)
-      .callerIdentifier(process.env.SINCH_VIRTUAL_NUMBER_TRIAL)
+      .callerIdentifier(virtualNo)
       .environmentHost(process.env.SINCH_CLIENT_ENVIRONMENT_HOST)
       .build();
 
@@ -61,7 +55,7 @@ class SinchClientWrapper {
   #sinchClientListener(jwt) {
     return {
       onCredentialsRequired: (_sinchClient, clientRegistration) => {
-        return clientRegistration.register(jwt.key);
+        return clientRegistration.register(jwt);
       },
 
       onClientStarted: (_sinchClient) => {
