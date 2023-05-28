@@ -12,6 +12,7 @@ export const sendSMSToPhone = (messageInfo, setMessageStatus, provider) => {
             method: 'POST',
             mode: 'cors',
             cache: 'no-store',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },

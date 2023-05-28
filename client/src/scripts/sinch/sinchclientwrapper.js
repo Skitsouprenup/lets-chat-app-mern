@@ -3,15 +3,25 @@ import { fetchSinchClientJWT } from './fetchsinchclientjwt.js';
 
 let sinchClientInstance = null;
 
-export const instantiateSinchClientLoggedIn =
+export const instantiateSinchClient =
   async (username, setSMSCallModal) => {
     if (sinchClientInstance === null) {
       const jwt = await fetchSinchClientJWT(username);
-      sinchClientInstance = 
+
+      if(jwt.sinchVirtualNo) {
+        sinchClientInstance = 
         new SinchClientWrapper(username, jwt.key, jwt.sinchVirtualNo);
-      getSinchCallOperations().setCallModalStateSetter(setSMSCallModal);
+        getSinchCallOperations().setCallModalStateSetter(setSMSCallModal);
+      } else console.info('User doesn\'t have sinch virtual number!\n'+
+                          'Can\'t start sinch client!');
+
     }
   }
+
+export const restartSinchClient = async (username, setSMSCallModal) => {
+  terminateSinchClient();
+  await instantiateSinchClient(username, setSMSCallModal);
+}
 
 export const terminateSinchClient = () => {
   if (sinchClientInstance !== null) {

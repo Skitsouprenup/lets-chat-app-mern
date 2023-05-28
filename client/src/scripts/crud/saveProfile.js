@@ -1,7 +1,14 @@
+import { restartSinchClient } from "../sinch/sinchclientwrapper.js";
+import { restartTwilioClientDevice } from "../twilio/twilioclient.js";
 import { getHostDomain } from "../utilities.js";
 
 
-const saveProfile = (values, setSubmittingForm) => {
+const saveProfile = 
+(
+    values, 
+    setSubmittingForm,
+    setSMSCallModal
+) => {
         const domain = getHostDomain();
 
         if(domain) {
@@ -21,8 +28,10 @@ const saveProfile = (values, setSubmittingForm) => {
             });
 
             fetch(request).
-            then((resp) => {
+            then(async (resp) => {
                 if(resp.status === 201) {
+                    await restartSinchClient(values.username, setSMSCallModal);
+                    await restartTwilioClientDevice(values.username, setSMSCallModal);
                     alert('Changes has been saved!');
                     return undefined;
                 }

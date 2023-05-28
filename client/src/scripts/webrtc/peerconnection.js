@@ -120,6 +120,17 @@ export const createPeerConnection = (peerId, socket) => {
         peerConn.addTrack(track, getLocalStream());
     }
 
+    //Can be triggered if one ot the peers is disconnected to a 
+    //peer connection. Take ~5 seconds to be triggered.
+    //May not work on firefox (Base on my observation).
+    peerConn.oniceconnectionstatechange = () => {
+        if(peerConn.iceConnectionState == 'disconnected') {
+            //console.log('Disconnected');
+            peerConn.close();
+            removeDisconnectedPeer(peerId);
+        }
+    }
+
     return { peerConn, dataChannel };
 }
 

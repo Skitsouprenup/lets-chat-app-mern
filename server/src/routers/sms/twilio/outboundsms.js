@@ -7,27 +7,29 @@ exports.twilioOutboundSMS = (req, res) => {
     const messageBody = req.body?.message;
     const receiver = req.body?.phoneNo;
 
-    const virtualNo = getVirtualNo('Twilio', username);
-    if(!virtualNo) {
-        res.sendStatus(404);
-        return;
-    }
+    if(req.session?.username === username) {
+        const virtualNo = getVirtualNo('Twilio', username);
+        if(!virtualNo) {
+            res.sendStatus(404);
+            return;
+        }
 
-    const accountSid = process.env.TWILIO_ACCOUNT_SID;
-    const authToken = process.env.TWILIO_AUTH_TOKEN;
-    const client = twilio(accountSid, authToken);
+        const accountSid = process.env.TWILIO_ACCOUNT_SID;
+        const authToken = process.env.TWILIO_AUTH_TOKEN;
+        const client = twilio(accountSid, authToken);
 
-    client.messages
-        .create(
-            {
-                body: messageBody,
-                from: virtualNo, 
-                to: receiver,
-            }
-        )
-        .then(() => res.sendStatus(200))
-        .catch((e) => {
-            console.error(e);
-            res.sendStatus(500);
-        });
+        client.messages
+            .create(
+                {
+                    body: messageBody,
+                    from: virtualNo, 
+                    to: receiver,
+                }
+            )
+            .then(() => res.sendStatus(200))
+            .catch((e) => {
+                console.error(e);
+                res.sendStatus(500);
+            });
+    } else res.sendStatus(403);
 };

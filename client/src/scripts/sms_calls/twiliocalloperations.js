@@ -20,6 +20,10 @@ export default class TwilioCallOperations {
         this.#device.register();
     }
 
+    destroyDevice() {
+      this.#device.destroy();
+    }
+
     setCallStatusSetter(callStatusSetter) {
       this.#callStatusSetter = callStatusSetter;
     }

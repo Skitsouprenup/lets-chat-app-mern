@@ -7,11 +7,26 @@ export const getTwilioCallOperations = () => {
   return twilioCallOps;
 }
 
-export const twilioClient = async (username, setSMSCallModal) => {
-    const token = await fetchTwilioClientJWT(username);
+export const restartTwilioClientDevice = async (username, setSMSCallModal) => {
+  if(twilioCallOps) {
+    twilioCallOps.destroyDevice();
+  }
 
-    if(token) {
-        const device = new Twilio.Device(token.token, {
+  twilioCallOps = null;
+  await twilioClient(username, setSMSCallModal);
+}
+
+export const twilioClient = async (username, setSMSCallModal) => {
+    const payload = await fetchTwilioClientJWT(username);
+
+    if(!payload?.twilioVirtualNo) {
+      console.info('User has no twilio virtual number!\n' +
+                   'Can\'t start Twilio.Device!');
+      return;
+    }
+
+    if(payload.token) {
+        const device = new Twilio.Device(payload.token, {
             logLevel: 1,
             // Set Opus as our preferred codec. 
             //Opus generally performs better, 
@@ -23,10 +38,6 @@ export const twilioClient = async (username, setSMSCallModal) => {
           addDeviceListeners(device);
           twilioCallOps = 
             new TwilioCallOperations(device, setSMSCallModal);
-          return true;
-    }
-    else {
-        return false;
     }
 }
 

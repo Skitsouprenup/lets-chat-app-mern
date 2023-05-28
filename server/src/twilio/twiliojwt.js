@@ -1,3 +1,5 @@
+const { getVirtualNo } = require("../../utilities");
+
 const AccessToken = require("twilio").jwt.AccessToken;
 const VoiceGrant = AccessToken.VoiceGrant;
 
@@ -8,8 +10,7 @@ const twilioJWT = (req, res) => {
         process.env.TWILIO_ACCOUNT_SID,
         process.env.TWILIO_API_KEY_SID,
         process.env.TWILIO_API_KEY_SECRET,
-        {identity}
-        
+        {identity}  
     );
 
     //Allow incoming call
@@ -21,8 +22,8 @@ const twilioJWT = (req, res) => {
 
     // Include identity and token in a JSON response
     res.send({
-        identity: identity,
         token: accessToken.toJwt(),
+        twilioVirtualNo: getVirtualNo('Twilio', identity) ? true : false,
     });
 }
 

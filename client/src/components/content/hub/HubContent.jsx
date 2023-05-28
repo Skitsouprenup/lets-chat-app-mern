@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../../scripts/crud/logoutuser';
 import {
     getSinchCallOperations,
-    instantiateSinchClientLoggedIn,
+    instantiateSinchClient,
     terminateSinchClient
 } from '../../../scripts/sinch/sinchclientwrapper';
 import { useVerifyUserSession } from '../../../customhooks/useverifyusersession';
@@ -103,7 +103,7 @@ const HubContent = () => {
     useEffect(() => {
         if (loading) return;
         //Init sinch client
-        instantiateSinchClientLoggedIn(username, setSMSCallModal);
+        instantiateSinchClient(username, setSMSCallModal);
         //Init twilio voice SDK
         twilioClient(username, setSMSCallModal);
     }, [username, loading]);
@@ -147,7 +147,8 @@ const HubContent = () => {
              hubComponent?.comp === 'PROFILE' ? 
                 <Profile 
                     setHubComponent={setHubComponent}
-                    username={username} /> :
+                    username={username}
+                    setSMSCallModal={setSMSCallModal} /> :
                 <>
                     <ModalComponent
                         socket={socket}

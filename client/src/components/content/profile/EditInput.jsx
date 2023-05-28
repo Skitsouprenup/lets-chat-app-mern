@@ -16,6 +16,11 @@ const EditInput = (
             setEditInput('');
         }
 
+        const cancelEdit = () => {
+            setEditInput('');
+            setEditValue(input ? input : '');
+        }
+
         return (
             <>
                 {
@@ -26,16 +31,26 @@ const EditInput = (
                             value={editValue.trim()}
                             onChange={(e) => setEditValue(e.target.value)}
                             className={styles['edit-input']} />
-                        <button
-                            onClick={saveEdit}>
+                        <button onClick={cancelEdit}>
+                            Cancel
+                        </button>
+                        <button onClick={saveEdit}>
                             Save
                         </button>
                     </div> :
-                    <p 
-                        onClick={() => setEditInput(editInputType)}
-                        className={styles['edit-button-text']}>
-                        {input.trim() ? 'edit' : 'add'}
-                    </p>
+                    <>
+                        <p>{input}</p>
+                        <p 
+                            onClick={() => {
+                                /*
+                                    Set enables edit feature.
+                                */
+                                setEditInput(editInputType);
+                            }}
+                            className={styles['edit-button-text']}>
+                            {input.trim() ? 'edit' : 'add'}
+                        </p>
+                    </>
                 }
             </>
         );

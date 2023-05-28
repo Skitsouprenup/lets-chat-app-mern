@@ -4,7 +4,7 @@ import EditInput from '../content/profile/EditInput';
 import fetchUserProfile from '../../scripts/crud/fetchUserProfile';
 import saveProfile from '../../scripts/crud/saveProfile';
 
-const Profile = ({setHubComponent, username}) => {
+const Profile = ({setHubComponent, username, setSMSCallModal}) => {
     const [fullname, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [twilioVirtualNo, setTwilioVirtualNo] = useState('');
@@ -21,7 +21,7 @@ const Profile = ({setHubComponent, username}) => {
             email,
             twilioVirtualNo,
             sinchVirtualNo
-        }, setSubmittingForm);
+        }, setSubmittingForm, setSMSCallModal);
     }
 
     useEffect(() => {
@@ -67,7 +67,6 @@ const Profile = ({setHubComponent, username}) => {
                     </div>
                     <div className={styles['field']}>
                         <p><b>E-mail Address:</b></p>
-                        <p>{email}</p>
                         {
                             !submittingForm ?
                             <EditInput 
@@ -75,7 +74,7 @@ const Profile = ({setHubComponent, username}) => {
                             setInput={setEmail}
                             editInput={editInput}
                             setEditInput={setEditInput}
-                            editInputType={'Email'} /> : null
+                            editInputType={'Email Address:'} /> : null
                         }
                     </div>
 
@@ -86,7 +85,6 @@ const Profile = ({setHubComponent, username}) => {
                         <div>
                             <div className={styles['field']}>
                                 <p><b>Twilio:</b></p>
-                                <p>{twilioVirtualNo}</p>
                                 {
                                     !submittingForm ?
                                     <EditInput 
@@ -94,12 +92,11 @@ const Profile = ({setHubComponent, username}) => {
                                     setInput={setTwilioVirtualNo}
                                     editInput={editInput}
                                     setEditInput={setEditInput}
-                                    editInputType={'TwilioNo'} /> : null
+                                    editInputType={'Twilio Virtual No.:'} /> : null
                                 }
                             </div>
                             <div className={styles['field']}>
                                 <p><b>Sinch:</b></p>
-                                <p>{sinchVirtualNo}</p>
                                 {
                                     !submittingForm ?
                                     <EditInput 
@@ -107,7 +104,7 @@ const Profile = ({setHubComponent, username}) => {
                                     setInput={setSinchVirtualNo}
                                     editInput={editInput}
                                     setEditInput={setEditInput}
-                                    editInputType={'SinchNo'} /> : null
+                                    editInputType={'Sinch Virtual No.:'} /> : null
                                 }
                             </div>
                         </div>
