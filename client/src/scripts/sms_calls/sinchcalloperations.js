@@ -2,7 +2,7 @@ export default class CallOperations {
     #callClient;
     #modalState;
     #audio;
-    #confId;
+    //#confId;
 
     #setCallState;
     #setCallModalState;
@@ -20,7 +20,7 @@ export default class CallOperations {
         this.#callClient = callClient;
         this.#modalState = null;
         this.#audio = null;
-        this.#confId = null;
+        //this.#confId = null;
 
         //methods/functions
         this.#setCallState = null;
@@ -119,8 +119,25 @@ export default class CallOperations {
         if (this.#setCallState) this.#setCallState(status);
     }
 
+    /*
+        Note: Adding a callback URL in 
+        Voice & Audio > Callback URL textbox in 
+        Settings section may break some functionalities
+        of sinch client such as app-to-app call.
+
+        There are two things that we can do:
+        #1: Make sure that the callback URL is reachable
+        In this case, we may handle incoming app-to-app call.
+        This is just an assumption. I didn't fully observe
+        this behavior very well. 
+
+        If the above solution doesn't work,
+        #2: remove the callback URL
+        However, doing this loses the ability of
+        your app to receive incoming PSTN call.
+    */
     async makeCall(callee, callType) {
-        const call = null;
+        let call = null;
         if (callType === 'App')
             call = await this.#callClient.callUser(callee);
         else if (callType === 'PSTN')
@@ -145,7 +162,7 @@ export default class CallOperations {
             onCallEnded: () => {
                 this.#modalState = '';
                 this.#audio = null;
-                this.#confId = null;
+                //this.#confId = null;
                 this.#setCallStatus('Call Ended');
             },
         });
