@@ -8,12 +8,15 @@ export const getTwilioCallOperations = () => {
 }
 
 export const restartTwilioClientDevice = async (username, setSMSCallModal) => {
+  destroyTwilioClientDevice();
+  await twilioClient(username, setSMSCallModal);
+}
+
+export const destroyTwilioClientDevice = () => {
   if(twilioCallOps) {
     twilioCallOps.destroyDevice();
+    twilioCallOps = null;
   }
-
-  twilioCallOps = null;
-  await twilioClient(username, setSMSCallModal);
 }
 
 export const twilioClient = async (username, setSMSCallModal) => {

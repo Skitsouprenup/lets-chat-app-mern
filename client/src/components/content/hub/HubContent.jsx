@@ -33,7 +33,7 @@ import { getHostDomain } from '../../../scripts/utilities';
 import { getAudioVideoPreview } from '../../../scripts/getAudioVIdeoPreview';
 
 import { callNotifEvent, removeCallNotifEvent } from '../../../scripts/socketio/callevent';
-import { getTwilioCallOperations, twilioClient } from '../../../scripts/twilio/twilioclient';
+import { destroyTwilioClientDevice, getTwilioCallOperations, twilioClient } from '../../../scripts/twilio/twilioclient';
 import Profile from '../../main/Profile';
 
 const socket = io.connect(getHostDomain(), {
@@ -182,6 +182,7 @@ const HubContent = () => {
                                     aria-label='logout button'
                                     onClick={() => {
                                         terminateSinchClient();
+                                        destroyTwilioClientDevice();
                                         logOutUser(username, navigate);
                                     }}>
                                     <BiLogOutCircle /><p>Logout</p>

@@ -29,7 +29,9 @@ export const verifySession = (
             then((data) => {
                 if (data?.username) {
                     setUsername(data?.username);
-                    setActiveUser(data?.username, setLoading);
+                    if(!setActiveUser(data?.username, setLoading)) {
+                        navigate(`/`);
+                    }
                 } else navigate(`/`);
             }).
             catch((e) => {
