@@ -1,5 +1,5 @@
 # lets-chat-app-mern
-A simple chat application created using the MERN stack.  This application is responsive and mobile-ready. I have a demo video of this project in this [link](https://youtu.be/4--kxfKSyXw)
+A simple chat application created using the MERN stack.  This application is responsive and mobile-ready. I have a demo video of this project in this [link](https://youtu.be/YTR5hiFXnNY)
 
 # Technologies Used
 * **Mongodb**
